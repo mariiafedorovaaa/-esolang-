@@ -13,7 +13,14 @@ background_color = (255, 255, 255)
 menu_color = (200, 200, 200)
 cell_color = (100, 100, 100)
 font = pygame.font.Font(None, 30)
-
+user_text_direction = ''
+user_text_value = ''
+input_rect1 = pygame.Rect(630, 340, 140, 32)
+input_rect2 = pygame.Rect(630, 380, 140, 32)
+# color_passive store color which is
+# color of input box.
+color_passive = pygame.Color('white')
+color = color_passive
 # Define the menu function
 def draw_menu():
     # Draw the menu background
@@ -48,19 +55,37 @@ def handle_events():
             for cell_rect in cell_rects:
                 if cell_rect.collidepoint(mouse_pos):
                     print("Cell clicked!")
-
+            if input_rect1.collidepoint(event.pos):
+                if event.type == pygame.KEYDOWN:
+                    user_text_direction += event.unicode
+            elif input_rect2.collidepoint(event.pos):
+                if event.type == pygame.KEYDOWN:
+                    user_text_value += event.unicode
 
 # Main loop
 while True:
     # Clear the screen and draw the menu
     screen.fill(background_color)
     draw_menu()
-
+    pygame.draw.rect(screen, color, input_rect)
+    text_surface = base_font.render(user_text, True, (255, 255, 255))
+    # render at position stated in arguments
+    screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+      
+    # set width of textfield so that text cannot get
+    # outside of user's text input
+    input_rect.w = max(100, text_surface.get_width()+10)
+      
+    # display.flip() will update only a portion of the
+    # screen to updated, not full area
+    pygame.display.flip()
     # Handle events
     handle_events()
+    
 
     # Update the screen
     pygame.display.update()
 
     # Set the frame rate
     pygame.time.Clock().tick(60)
+   
