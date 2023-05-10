@@ -15,8 +15,8 @@ cell_color = (100, 100, 100)
 font = pygame.font.Font(None, 30)
 user_text_direction = ''
 user_text_value = ''
-input_rect1 = pygame.Rect(630, 340, 140, 32)
-input_rect2 = pygame.Rect(630, 430, 140, 32)
+input_rect1 = pygame.Rect(630, 360, 140, 32)
+input_rect2 = pygame.Rect(630, 450, 140, 32)
 # color_passive store color which is
 # color of input box.
 color_passive = pygame.Color('white')
@@ -48,9 +48,12 @@ def draw_menu():
     pygame.display.update()
 
 
+active = 0
 # Define the event handling function
 def handle_events():
-    draw_menu()
+    global user_text_direction
+    global user_text_value
+    global active
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -61,22 +64,53 @@ def handle_events():
                 if cell_rect.collidepoint(mouse_pos):
                     print("Cell clicked!")
             if input_rect1.collidepoint(event.pos):
-                if event.type == pygame.KEYDOWN:
-                    user_text_direction += event.unicode
+                active = 1
             elif input_rect2.collidepoint(event.pos):
-                if event.type == pygame.KEYDOWN:
+                active = 2
+            else:
+                active = 0
+        if event.type == pygame.KEYDOWN:
+            if active == 1:
+                if event.key == pygame.K_RETURN:
+                    user_text_direction = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_direction = user_text_direction[:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_direction = ''
+                    user_text_direction += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_direction = ''
+                    user_text_direction += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_direction = ''
+                    user_text_direction += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_direction = ''
+                    user_text_direction += 'Down'
+                else:
+                    print('error')
+            elif active == 2:
+                if event.key == pygame.K_RETURN:
+                    user_text_value = ''
+                elif event.key == pygame.K_BACKSPACE:
+                            user_text_value = user_text_value[:-1]
+                else:
                     user_text_value += event.unicode
+                    if user_text_value.isdigit() == False:
+                        print('error')
 
 
 # Main loop
 while True:
+    handle_events()
     # Clear the screen
     screen.fill(background_color)
+    draw_menu()
     # Handle events
     pygame.draw.rect(screen, color, input_rect1)
-    text_surface1 = font.render(user_text_direction, True, (255, 255, 255))
+    text_surface1 = font.render(user_text_direction, True, (0, 0, 0))
     pygame.draw.rect(screen, color, input_rect2)
-    text_surface2 = font.render(user_text_value, True, (255, 255, 255))
+    text_surface2 = font.render(user_text_value, True, (0, 0, 0))
     # render at position stated in arguments
     screen.blit(text_surface1, (input_rect1.x, input_rect1.y + 20))
     screen.blit(text_surface2, (input_rect2.x, input_rect2.y + 20))
@@ -86,7 +120,6 @@ while True:
     input_rect2.w = max(100, text_surface2.get_width() + 10)
     # display.flip() will update only a portion of the
     # screen to updated, not full area
-    handle_events()
 
     pygame.display.flip()
 
