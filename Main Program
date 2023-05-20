@@ -1,3 +1,7 @@
+
+
+
+
 import pygame
 from random import randint
 from copy import deepcopy
@@ -11,7 +15,7 @@ W, H = a // TILE, b // TILE
 FPS = 3
 
 
-
+Time_stop=0
 fild=[0]*W
 obj=[0]*W
 gen=[0]*W
@@ -145,6 +149,8 @@ cell_color = (100, 100, 100)
 font = pygame.font.Font(None, 30)
 color_passive = pygame.Color('white')
 color = color_passive
+active = 0
+cell_vvod = 0
 def draw_menu():
     # Draw the menu background
     menu_rect = pygame.Rect(a, 0, 200, 600)
@@ -161,21 +167,22 @@ def draw_menu():
         cell_rects.append(cell_rect)
 
     # Draw the settings in the lower part of the menu
-    direction_text = font.render("Direction: ", True, (0, 0, 0))
-    screen.blit(direction_text, (a+20, 340))
-    amount_text = font.render("Value: ", True, (0, 0, 0))
-    screen.blit(amount_text, (a+20, 430))
+    if cell_vvod==1:
+        direction_text = font.render("Direction: ", True, (0, 0, 0))
+        screen.blit(direction_text, (a+20, 340))
+        amount_text = font.render("Value: ", True, (0, 0, 0))
+        screen.blit(amount_text, (a+20, 430))
 
     pygame.display.update()
 
-active = 0
-cell_vvod=0
+
 # Define the event handling function
 def handle_events():
     global user_text_direction
     global user_text_value
     global active
     global cell_vvod
+    global Time_stop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -189,7 +196,7 @@ def handle_events():
                 if cell_rects[i].collidepoint(mouse_pos):
                     print("Cell clicked! "+str(i+1))
                     cell_vvod=i+1
-            if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==1) and (user_text_direction!='')and (user_text_value!=''):
+            if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==1) and (user_text_direction!='') and (user_text_value!=''):
                 obj[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=[0]*2
                 obj[mouse_pos[0]//TILE][mouse_pos[1]//TILE][0]=int(user_text_value)
                 if user_text_direction=='Right':
@@ -200,7 +207,192 @@ def handle_events():
                     obj[mouse_pos[0] // TILE][mouse_pos[1] // TILE][1] = 4
                 if user_text_direction == 'Down':
                     obj[mouse_pos[0] // TILE][mouse_pos[1] // TILE][1] = 1
+            if (mouse_pos[0] < a) and (mouse_pos[1] < b) and (cell_vvod == 2):
+                pr[mouse_pos[0]//TILE][mouse_pos[1]//TILE]=1
+            if input_rect1.collidepoint(event.pos):
+                active = 1
+            elif input_rect2.collidepoint(event.pos):
+                active = 2
+            else:
+                active = 0
+        if event.type == pygame.KEYDOWN:
+            if event.key==pygame.K_SPACE:
+                Time_stop=(Time_stop+1)%2
+            if active == 1:
+                if event.key == pygame.K_RETURN:
+                    user_text_direction = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_direction = user_text_direction[:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_direction = ''
+                    user_text_direction += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_direction = ''
+                    user_text_direction += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_direction = ''
+                    user_text_direction += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_direction = ''
+                    user_text_direction += 'Down'
+                else:
+                    print('error')
+            elif active == 2:
+                if event.key == pygame.K_RETURN:
+                    user_text_value = ''
+                elif event.key == pygame.K_BACKSPACE:
+                            user_text_value = user_text_value[:-1]
+                else:
+                    u=''
+                    u+=event.unicode
+                    if ('1234567890'.find(u)==-1) or (len(user_text_value)>3):
+                        u=u
+                    else:
+                        user_text_value += event.unicode
 
+t=0
+
+while True:
+
+    t=t+1
+    handle_events()
+    surface.fill(pygame.Color('white'))
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            exit()
+
+    [pygame.draw.line(surface, pygame.Color('darkslategray'), (x, 0), (x, HEIGHT)) for x in range(0, WIDTH, TILE)]
+    [pygame.draw.line(surface, pygame.Color('darkslategray'), (0, y), (WIDTH, y)) for y in range(0, HEIGHT, TILE)]
+
+    draw_menu()
+    # Handle events
+    if cell_vvod == 1:
+        pygame.draw.rect(screen, color, input_rect1)
+        text_surface1 = font.render(user_text_direction, True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect2)
+        text_surface2 = font.render(user_text_value, True, (0, 0, 0))
+        # render at position stated in arguments
+
+        screen.blit(text_surface1, (input_rect1.x, input_rect1.y + 20))
+        screen.blit(text_surface2, (input_rect2.x, input_rect2.y + 20))
+        # set width of textfield so that text cannot get
+        # outside of user's text input
+        input_rect1.w = max(100, text_surface1.get_width() + 10)
+        input_rect2.w = max(100, text_surface2.get_width() + 10)
+    for x in range(0, W ):
+        for y in range(0, H ):
+            if pr[x][y] == 1:
+                pygame.draw.rect(surface, pygame.Color('yellow'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+            if obj[x][y]!=0:
+                pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5, TILE - 6, TILE - 6))
+                if obj[x][y][1]==1:
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE + TILE*0.7, TILE-6, TILE*0.25))
+                if obj[x][y][1]==2:
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.7, y * TILE+ 3.5 , TILE*0.25, TILE-6))
+                if obj[x][y][1]==3:
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE +TILE*0.1, TILE-6, TILE*0.25))
+                if obj[x][y][1]==4:
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.1, y * TILE + 3.5 , TILE*0.25, TILE-6))
+                if pr[x][y]!=0:
+                    print (obj[x][y][0])
+            if gen[x][y]!=0:
+                pygame.draw.rect(surface, pygame.Color('green'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+            if Dudlicator[x][y] !='':
+                pygame.draw.rect(surface, pygame.Color('blue'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+
+
+    if Time_stop==0:
+        obj=run(obj,W,H)
+        obj=spawn (obj,gen,W,H,t)
+        obj=dublicate(obj,W,H)
+
+    pygame.display.flip()
+    pygame.display.update()
+    clock.tick(FPS)
+
+'''
+Меню+
+Можно поставить переменную+
+Добавлено:
+   Генератор
+   Переменная
+   Принтер
+   Дубликатор
+Надо добавить:
+   Преобразователь
+   Сравниватель
+   If
+   Стена
+Надо исправить:
+   переменные не видят спец. объекты перед собой
+   генератор может уничтожить переменную
+  можно поставить переменную на спец. объект
+  доделать меню, чтобы можно было поставить любой объект
+import pygame
+import sys
+
+# Initialize Pygame
+pygame.init()
+
+# Set the window size and title
+window_size = (800, 600)
+screen = pygame.display.set_mode(window_size)
+
+# Define colors and font
+background_color = (255, 255, 255)
+menu_color = (200, 200, 200)
+cell_color = (100, 100, 100)
+font = pygame.font.Font(None, 30)
+user_text_direction = ''
+user_text_value = ''
+input_rect1 = pygame.Rect(630, 360, 140, 32)
+input_rect2 = pygame.Rect(630, 450, 140, 32)
+# color_passive store color which is
+# color of input box.
+color_passive = pygame.Color('white')
+color = color_passive
+
+
+# Define the menu function
+def draw_menu():
+    # Draw the menu background
+    menu_rect = pygame.Rect(600, 0, 200, 600)
+    pygame.draw.rect(screen, menu_color, menu_rect)
+
+    # Draw the cells in the upper part of the menu
+    global cell_rects
+    cell_rects = []
+    for i in range(3):
+        cell_rect = pygame.Rect(620, 50 + i * 100, 160, 80)
+        pygame.draw.rect(screen, cell_color, cell_rect)
+        cell_text = font.render("Cell {}".format(i + 1), True, (255, 255, 255))
+        screen.blit(cell_text, (640, 70 + i * 100))
+        cell_rects.append(cell_rect)
+
+    # Draw the settings in the lower part of the menu
+    direction_text = font.render("Direction: ", True, (0, 0, 0))
+    screen.blit(direction_text, (620, 340))
+    amount_text = font.render("Value: ", True, (0, 0, 0))
+    screen.blit(amount_text, (620, 430))
+
+    pygame.display.update()
+
+
+active = 0
+# Define the event handling function
+def handle_events():
+    global user_text_direction
+    global user_text_value
+    global active
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+            for i in range(3):
+                if cell_rects[i].collidepoint(mouse_pos):
+                    print("Cell clicked! "+str(i+1))
             if input_rect1.collidepoint(event.pos):
                 active = 1
             elif input_rect2.collidepoint(event.pos):
@@ -233,27 +425,16 @@ def handle_events():
                 elif event.key == pygame.K_BACKSPACE:
                             user_text_value = user_text_value[:-1]
                 else:
-                    u=''
-                    u+=event.unicode
-                    if ('98765434567810'.find(u)==-1) or (len(user_text_value)>3):
-                        u=u
-                    else:
-                        user_text_value += event.unicode
+                    user_text_value += event.unicode
+                    if user_text_value.isdigit() == False:
+                        print('error')
 
-t=0
 
+# Main loop
 while True:
-
-    t=t+1
     handle_events()
-    surface.fill(pygame.Color('white'))
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            exit()
-
-    [pygame.draw.line(surface, pygame.Color('darkslategray'), (x, 0), (x, HEIGHT)) for x in range(0, WIDTH, TILE)]
-    [pygame.draw.line(surface, pygame.Color('darkslategray'), (0, y), (WIDTH, y)) for y in range(0, HEIGHT, TILE)]
-
+    # Clear the screen
+    screen.fill(background_color)
     draw_menu()
     # Handle events
     pygame.draw.rect(screen, color, input_rect1)
@@ -267,34 +448,14 @@ while True:
     # outside of user's text input
     input_rect1.w = max(100, text_surface1.get_width() + 10)
     input_rect2.w = max(100, text_surface2.get_width() + 10)
-    for x in range(0, W ):
-        for y in range(0, H ):
-            if pr[x][y] == 1:
-                pygame.draw.rect(surface, pygame.Color('yellow'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-            if obj[x][y]!=0:
-                pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5, TILE - 6, TILE - 6))
-                if obj[x][y][1]==1:
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE + TILE*0.7, TILE-6, TILE*0.25))
-                if obj[x][y][1]==2:
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.7, y * TILE+ 3.5 , TILE*0.25, TILE-6))
-                if obj[x][y][1]==3:
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE +TILE*0.1, TILE-6, TILE*0.25))
-                if obj[x][y][1]==4:
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.1, y * TILE + 3.5 , TILE*0.25, TILE-6))
-                if pr[x][y]!=0:
-                    print (obj[x][y][0])
-            if gen[x][y]!=0:
-                pygame.draw.rect(surface, pygame.Color('green'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-            if Dudlicator[x][y] !='':
-                pygame.draw.rect(surface, pygame.Color('blue'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+    # display.flip() will update only a portion of the
+    # screen to updated, not full area
 
-
-
-    obj=run(obj,W,H)
-    obj=spawn (obj,gen,W,H,t)
-    obj=dublicate(obj,W,H)
-
-    
     pygame.display.flip()
+
+
+    # Update the screen
     pygame.display.update()
-    clock.tick(FPS)
+
+    # Set the frame rate
+    pygame.time.Clock().tick(60)'''
