@@ -160,7 +160,7 @@ active = 0
 cell_vvod = 0
 def draw_menu():
     # Draw the menu background
-        menu_rect = pygame.Rect(a, 0, 200, 800)
+        menu_rect = pygame.Rect(a, 0, 200, 900)
         pygame.draw.rect(screen, menu_color, menu_rect)
 
     # Draw the cells in the upper part of the menu
