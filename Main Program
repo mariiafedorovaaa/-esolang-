@@ -12,7 +12,7 @@ RES = WIDTH, HEIGHT = a, b
 RES = WIDTH+200, HEIGHT
 TILE = 30
 W, H = a // TILE, b // TILE
-FPS = 3
+FPS = 1
 
 
 Time_stop=0
@@ -22,6 +22,7 @@ gen=[0]*W
 pr=[0]*W
 inc=[0]*W
 Dudlicator=[0]*W
+Converter=[0]*W
 
 for i in range (W):
     obj[i]=[0]*H
@@ -30,6 +31,7 @@ for i in range (W):
     inc[i]=[0]*H
     fild[i]=[0]*H
     Dudlicator[i]=['']*H
+    Converter[i]=['']*H
 pygame.init()
 surface = pygame.display.set_mode(RES)
 clock = pygame.time.Clock()
@@ -57,7 +59,9 @@ fild[8][10]=3
 Dudlicator[8][18]='u'
 fild[8][18]=3
 Dudlicator[17][18]='l'
-fild[17][8]=3
+fild[17][18]=3
+Converter[4][4]='r+d=l'
+fild[4][4]=5
 
 def run (past:list,c,d:int):
     global fild
@@ -82,13 +86,15 @@ def run (past:list,c,d:int):
                     fx=(x-1) % c
                 if fild[fx][fy]==20:
                     fx=fx
-                elif (f[fx][fy]==0) and (fild[fx][fy]==0):
+                elif (f[fx][fy]==0) and (fild[fx][fy]==0) and (past[fx][fy]==0):
                     f[fx][fy] =[past[x][y][0],past[x][y][1]]
                 else:
                     f[x][y] = [0] * 2
                     f[x][y][0] = past[x][y][0]
                     f[x][y][1] = past[x][y][1]
                     if fild[fx][fy]!=0:
+                        #if (fild[fx][fy]==3) and (pushed[fx][fy]==0):
+                            #dublicate(past,c,d,fx,fy)
                         pushed[fx][fy]=fild[fx][fy]
     return f
 
@@ -107,15 +113,17 @@ def spawn (past,gn:list,c,d,e:int):
                     fy=y
                     past[fx][fy]=[gn[x][y][0],gn[x][y][1]]
     return (past)
-def dublicate(past:list,c,d:int):
+def dublicate(past:list,c,d,l,m:int):
     global Dudlicator
     global pushed
     f = past
     fx = -2 #иммено его мы и будем закидывать
     fy = -2
     k=0
-    for x in range(0, c):
-        for y in range(0, d):
+    if Dudlicator[l][m]!='':
+        if pushed[l][m]==3:
+            x=l
+            y=m
             fx = -2  # иммено его мы и будем закидывать
             fy = -2
             if Dudlicator[x][y] != '':
@@ -152,6 +160,82 @@ def dublicate(past:list,c,d:int):
                 if k==1:
                     f[fx][fy]=0
     return f
+def convert (past:list,c,d,x,y:int):
+    global Converter
+    global pushed
+    f = past
+    px1=-2
+    py1=-2
+    px2=-2
+    py2=-2
+    fx = -2  # иммено его мы и будем закидывать
+    fy = -2
+    k = 0
+    if Converter[x][y] != '':
+        if pushed[x][y] == 5:
+            one=Converter[x][y][0]
+            two=Converter[x][y][2]
+            oper=Converter[x][y][1]
+            res=Converter[x][y][4]
+            px1=Who(past,x,y,one,0)[0]
+            py1=Who(past,x,y,one,0)[1]
+            px2 = Who(past, x, y, two,0)[0]
+            py2 = Who(past, x, y, two,0)[1]
+            fx = Who(past, x, y, res,1)[0]
+            fy = Who(past, x, y, res,1)[1]
+            print(fx,' ',fy,' ',px1,' ',py1,' ',px2,' ',py2)
+            if (f[fx][fy]==0) and (past[px1][py1]!=0) and (past[px2][py2]!=0):
+                if oper=='+':
+                    f[fx][fy]=[past[px1][py1][0]+past[px2][py2][0],'0drul'.find(res)]
+                if oper=='-':
+                    f[fx][fy]=[past[px1][py1][0]-past[px2][py2][0],'0drul'.find(res)]
+                if oper == '*':
+                    f[fx][fy] = [past[px1][py1][0] * past[px2][py2][0], '0drul'.find(res)]
+                if oper == '/':
+                    f[fx][fy] = [past[px1][py1][0] // past[px2][py2][0], '0drul'.find(res)]
+                if oper == '%':
+                    f[fx][fy] = [past[px1][py1][0] % past[px2][py2][0], '0drul'.find(res)]
+                past[px1][py1]=0
+                past[px2][py2]=0
+    return f
+
+
+def Who (past:list,x,y,two,one:int):
+    px2 = -2
+    py2 = -2
+    if one==1:
+        if (two == 'u'):
+            px2 = x
+            py2 = y - 1
+        elif (two == 'd'):
+            px2 = x
+            py2 = y + 1
+        elif (two == 'r'):
+            px2 = x + 1
+            py2 = y
+        elif (two == 'l'):
+            px2 = x - 1
+            py2 = y
+    elif (two == 'u') and ((past[x][y - 1] != 0) or (one>0)):
+        if (past[x][y - 1][1]== 1) or (one>0):
+            px2 = x
+            py2 = y - 1
+    elif (two == 'd') and ((past[x][y + 1] != 0)or (one>0)):
+        if (past[x][y + 1][1]== 3) or (one>0):
+            px2 = x
+            py2 = y + 1
+    elif (two == 'r') and ((past[x + 1][y] != 0)or (one>0)):
+        if (past[x + 1][y][1]== 4)or (one>0) :
+            px2 = x + 1
+            py2 = y
+    elif (two=='l') and ((past[x - 1][y] != 0)or (one>0)):
+        if (past[x - 1][y][1]== 2) or (one>0):
+            px2 = x - 1
+            py2 = y
+    return [px2,py2]
+
+
+
 
 screen = pygame.display.set_mode(RES)
 menu_color = (200, 200, 200)
@@ -218,6 +302,7 @@ def draw_menu():
             screen.blit(direction2_text, (a + 20, 620))
             directionres_text = font.render("Result direction: ", True, (0, 0, 0))
             screen.blit(directionres_text, (a+20, 690))
+
         pygame.display.update()
 
 
@@ -262,7 +347,7 @@ def handle_events():
             if (mouse_pos[0] < a) and (mouse_pos[1] < b) and (cell_vvod == 2):
                 pr[mouse_pos[0]//TILE][mouse_pos[1]//TILE]=1
             if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==3) and (user_text_direction[3]!=''):
-                Dudlicator[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = '0dril'['0DRUL'.find(user_text_direction[3][0])]
+                Dudlicator[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = '0drul'['0DRUL'.find(user_text_direction[3][0])]
                 fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=3
             if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==4) and (user_text_direction[4]!='') and (user_text_ticks!='')and(user_text_value!=''):
                 gen[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=[int(user_text_value),'0DRUL'.find(user_text_direction[4][0]),int(user_text_ticks)]
@@ -512,6 +597,8 @@ while True:
                 pygame.draw.rect(surface, pygame.Color('green'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
             if Dudlicator[x][y] !='':
                 pygame.draw.rect(surface, pygame.Color('blue'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+            if Converter[x][y]!='':
+                pygame.draw.rect(surface, pygame.Color('orange'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
 
 
     if Time_stop==0:
@@ -519,8 +606,10 @@ while True:
         #print (pushed)
         obj=run(obj,W,H)
         obj=spawn (obj,gen,W,H,t)
-
-        obj=dublicate(obj,W,H)
+        for i in range(W):
+            for j in range (H):
+                obj=dublicate(obj,W,H,i,j)
+                obj=convert(obj,W,H,i,j)
 
     pygame.display.flip()
     pygame.display.update()
@@ -534,8 +623,8 @@ while True:
    Переменная
    Принтер
    Дубликатор
-Надо добавить:
    Преобразователь
+Надо добавить:
    Сравниватель
    If
    Стена
