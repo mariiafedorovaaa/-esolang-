@@ -12,10 +12,12 @@ RES = WIDTH, HEIGHT = a, b
 RES = WIDTH+200, HEIGHT
 TILE = 30
 W, H = a // TILE, b // TILE
-FPS = 1
+FPS = 9
+waitFPS = 3
+Time_stop = 0
+running_man=1
 
-
-Time_stop=0
+running=[[0]*H]*W
 fild=[0]*W
 obj=[0]*W
 gen=[0]*W
@@ -23,7 +25,8 @@ pr=[0]*W
 inc=[0]*W
 Dudlicator=[0]*W
 Converter=[0]*W
-
+pushed=[0]*W
+input_rect1 = pygame.Rect(a+30.5, 580, 140, 32)
 for i in range (W):
     obj[i]=[0]*H
     gen[i]=[0]*H
@@ -32,6 +35,8 @@ for i in range (W):
     fild[i]=[0]*H
     Dudlicator[i]=['']*H
     Converter[i]=['']*H
+    pushed[i]=[0]*H
+
 pygame.init()
 surface = pygame.display.set_mode(RES)
 clock = pygame.time.Clock()
@@ -63,12 +68,15 @@ fild[17][18]=3
 Converter[4][4]='r+d=l'
 fild[4][4]=5
 
-def run (past:list,c,d:int):
+def run (past:list,c,d,e:int):
     global fild
     global pushed
-    f=[0]*c
-    for i in range (c):
-        f[i]=[0]*d
+    f = [0] * c
+    running=[0]*c
+    for i in range(c):
+        f[i] = [0] * d
+        running[i]=[0]*d
+
     fx=0
     fy=0
     for x in range(0, c):
@@ -86,17 +94,23 @@ def run (past:list,c,d:int):
                     fx=(x-1) % c
                 if fild[fx][fy]==20:
                     fx=fx
+                elif (f[fx][fy]==0) and (fild[fx][fy]==0) and (past[fx][fy]==0) and e==0:
+                    running[x][y]=1
                 elif (f[fx][fy]==0) and (fild[fx][fy]==0) and (past[fx][fy]==0):
                     f[fx][fy] =[past[x][y][0],past[x][y][1]]
                 else:
-                    f[x][y] = [0] * 2
-                    f[x][y][0] = past[x][y][0]
-                    f[x][y][1] = past[x][y][1]
-                    if fild[fx][fy]!=0:
+                    f[x][y] = [past[x][y][0],past[x][y][1]]
+                    if (fild[fx][fy]!=0) and (e==1):
                         #if (fild[fx][fy]==3) and (pushed[fx][fy]==0):
                             #dublicate(past,c,d,fx,fy)
                         pushed[fx][fy]=fild[fx][fy]
-    return f
+
+    if e==1:
+        #print (f)
+        #print (past)
+        return f
+    elif e==0:
+        return running
 
 def spawn (past,gn:list,c,d,e:int):
     f = [0] * c
@@ -127,35 +141,35 @@ def dublicate(past:list,c,d,l,m:int):
             fx = -2  # иммено его мы и будем закидывать
             fy = -2
             if Dudlicator[x][y] != '':
-                if (Dudlicator[x][y].find('u')==-1) and (past[x][y-1]!=0):
-                    if past[x][y-1][1] == 1:
+                if (Dudlicator[x][y].find('u')==-1) and (past[x][(y-1)%d]!=0):
+                    if past[x][(y-1)%d][1] == 1:
                         fx=x
-                        fy=y-1
-                elif (Dudlicator[x][y].find('d')==-1) and (past[x][y + 1] != 0):
-                    if past[x][y + 1][1] == 3:
+                        fy=(y-1)%d
+                elif (Dudlicator[x][y].find('d')==-1) and (past[x][(y + 1)%d] != 0):
+                    if past[x][(y + 1)%d][1] == 3:
                         fx=x
-                        fy=y+1
-                elif (Dudlicator[x][y].find('r')==-1) and (past[x + 1][y] != 0):
-                    if past[x + 1][y][1] == 4:
-                        fx=x+1
+                        fy=(y+1)%d
+                elif (Dudlicator[x][y].find('r')==-1) and (past[(x + 1)%c][y] != 0):
+                    if past[(x + 1)%c][y][1] == 4:
+                        fx=(x+1)%c
                         fy=y
-                elif (Dudlicator[x][y].find('l')==-1) and (past[x - 1][y] != 0):
-                    if past[x-1][y][1]==2:
-                        fx=x-1
+                elif (Dudlicator[x][y].find('l')==-1) and (past[(x - 1)%c][y] != 0):
+                    if past[(x-1)%c][y][1]==2:
+                        fx=(x-1)%c
                         fy=y
                 if (fx!=-2):
                     for i in Dudlicator[x][y]:
-                        if (i=='d') and (f[x][y+1]==0) and (past[x][y+1]==0):
-                            f[x][y+1]=[past[fx][fy][0],1]
+                        if (i=='d') and (f[x][(y + 1)%d]==0) and (past[x][(y + 1)%d]==0):
+                            f[x][(y + 1)%d]=[past[fx][fy][0],1]
                             k=1
-                        if (i=='r') and (f[x+1][y]==0) and (past[x+1][y]==0):
-                            f[x+1][y]=[past[fx][fy][0],2]
+                        if (i=='r') and (f[(x + 1)%c][y]==0) and (past[(x + 1)%c][y]==0):
+                            f[(x + 1)%c][y]=[past[fx][fy][0],2]
                             k=1
-                        if (i=='l') and (f[x-1][y]==0) and (past[x-1][y]==0):
-                            f[x-1][y]=[past[fx][fy][0],4]
+                        if (i=='l') and (f[(x - 1)%c][y]==0) and (past[(x - 1)%c][y]==0):
+                            f[(x - 1)%c][y]=[past[fx][fy][0],4]
                             k=1
-                        if (i=='u') and (f[x][y+1]==0) and (past[x][y-1]==0):
-                            f[x][y-1]=[past[fx][fy][0],3]
+                        if (i=='u') and (f[x][(y-1)%d]==0) and (past[x][(y-1)%d]==0):
+                            f[x][(y-1)%d]=[past[fx][fy][0],3]
                             k=1
                 if k==1:
                     f[fx][fy]=0
@@ -183,7 +197,7 @@ def convert (past:list,c,d,x,y:int):
             py2 = Who(past, x, y, two,0)[1]
             fx = Who(past, x, y, res,1)[0]
             fy = Who(past, x, y, res,1)[1]
-            print(fx,' ',fy,' ',px1,' ',py1,' ',px2,' ',py2)
+            #print(fx,' ',fy,' ',px1,' ',py1,' ',px2,' ',py2)
             if (f[fx][fy]==0) and (past[px1][py1]!=0) and (past[px2][py2]!=0):
                 if oper=='+':
                     f[fx][fy]=[past[px1][py1][0]+past[px2][py2][0],'0drul'.find(res)]
@@ -317,7 +331,11 @@ def handle_events():
     global active
     global cell_vvod
     global Time_stop
+    global running_man
+    global running
     global fild
+    global W
+    global H
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -370,6 +388,12 @@ def handle_events():
         if event.type == pygame.KEYDOWN:
             if event.key==pygame.K_SPACE:
                 Time_stop=(Time_stop+1)%2
+            if event.key==pygame.K_q:
+                running_man=(running_man+1)%2
+                if running_man==1:
+                    running=[0]*W
+                    for i in range(W):
+                        running[i]=[0]*H
             if active == 1 and cell_vvod == 1:
                 if event.key == pygame.K_RETURN:
                     user_text_direction[1] = ''
@@ -511,7 +535,7 @@ t=0
 
 while True:
 
-    t=t+1
+    t=t+Time_stop
     handle_events()
     surface.fill(pygame.Color('white'))
     for event in pygame.event.get():
@@ -579,37 +603,51 @@ while True:
 
     for x in range(0, W ):
         for y in range(0, H ):
-            if pr[x][y] == 1:
+            if (pr[x][y] == 1):
                 pygame.draw.rect(surface, pygame.Color('yellow'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+            if gen[x][y] != 0:
+                pygame.draw.rect(surface, pygame.Color('green'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
             if obj[x][y]!=0:
-                pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5, TILE - 6, TILE - 6))
                 if obj[x][y][1]==1:
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE + TILE*0.7, TILE-6, TILE*0.25))
+                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE - 6, TILE - 6))
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE + TILE*0.7+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE-6, TILE*0.25))
                 if obj[x][y][1]==2:
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.7, y * TILE+ 3.5 , TILE*0.25, TILE-6))
+                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5, TILE - 6, TILE - 6))
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.7+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE+ 3.5 , TILE*0.25, TILE-6))
                 if obj[x][y][1]==3:
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE +TILE*0.1, TILE-6, TILE*0.25))
+                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE - 6, TILE - 6))
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE +TILE*0.1-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE-6, TILE*0.25))
                 if obj[x][y][1]==4:
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.1, y * TILE + 3.5 , TILE*0.25, TILE-6))
+                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5, TILE - 6, TILE - 6))
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.1-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5 , TILE*0.25, TILE-6))
                 if pr[x][y]!=0:
                     print (obj[x][y][0])
-            if gen[x][y]!=0:
-                pygame.draw.rect(surface, pygame.Color('green'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+
             if Dudlicator[x][y] !='':
                 pygame.draw.rect(surface, pygame.Color('blue'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+                if pushed[x][y]!=0:
+                    pygame.draw.rect(surface, pygame.Color('darkblue'), (x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
             if Converter[x][y]!='':
                 pygame.draw.rect(surface, pygame.Color('orange'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+    if Time_stop==1:
+        if t % waitFPS==0:
+            pushed = [0] * W
+            for i in range(W):
+                pushed[i] = [0] * H
+            obj = run(obj, W, H, 1)
+            obj = spawn(obj, gen, W, H, t)
+            #print (pushed)
+
+            for i in range(W):
+                for j in range(H):
+                    obj = dublicate(obj, W, H, i, j)
+                    obj = convert(obj, W, H, i, j)
+
+            if running_man==0:
+                running=run(obj,W,H,0)
 
 
-    if Time_stop==0:
-        pushed=[[0]*H]*W
-        #print (pushed)
-        obj=run(obj,W,H)
-        obj=spawn (obj,gen,W,H,t)
-        for i in range(W):
-            for j in range (H):
-                obj=dublicate(obj,W,H,i,j)
-                obj=convert(obj,W,H,i,j)
+
 
     pygame.display.flip()
     pygame.display.update()
@@ -623,8 +661,8 @@ while True:
    Переменная
    Принтер
    Дубликатор
-   Преобразователь
 Надо добавить:
+   Преобразователь
    Сравниватель
    If
    Стена
