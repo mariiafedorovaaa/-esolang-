@@ -12,7 +12,7 @@ waitFPS = 3
 Time_stop = 0
 running_man=1
 
-running=[[0]*H]*W
+running=[0]*W
 fild=[0]*W
 obj=[0]*W
 gen=[0]*W
@@ -22,6 +22,9 @@ Dudlicator=[0]*W
 Converter=[0]*W
 pushed=[0]*W
 input_rect1 = pygame.Rect(a+30.5, 580, 140, 32)
+user_text_table=[0]*12
+for i in range (12):
+    user_text_table[i]=['']*10
 for i in range (W):
     obj[i]=[0]*H
     gen[i]=[0]*H
@@ -31,6 +34,7 @@ for i in range (W):
     Dudlicator[i]=['']*H
     Converter[i]=['']*H
     pushed[i]=[0]*H
+    run[i]=[0]*H
 
 pygame.init()
 surface = pygame.display.set_mode(RES)
@@ -47,16 +51,9 @@ user_text_direction2=''
 user_text_directionres=''
 user_text_action = ''
 input_rect1 = pygame.Rect(a+30, 580, 140, 32)
-input_rect2 = pygame.Rect(a+30, 680, 140, 32)
-input_rect3 = pygame.Rect(a+30, 750, 140, 32)
-input_rectdud1 = pygame.Rect(a+30, 580, 140, 32)
-input_rectdud11 = pygame.Rect(a+30, 640, 140, 32)
-input_rectdud12 = pygame.Rect(a+30, 700, 140, 32)
-input_rectdud13 = pygame.Rect(a+30, 750, 140, 32)
-input_rect4 = pygame.Rect(a+30, 580, 140, 32)
-input_rect5 = pygame.Rect(a+30, 640, 140, 32)
-input_rect6 = pygame.Rect(a+30, 700, 140, 32)
-input_rect7 = pygame.Rect(a+30, 756, 140, 32)
+input_rect4 = pygame.Rect(a+30, 750, 140, 32)
+input_rect2 = pygame.Rect(a+30, 640, 140, 32)
+input_rect3 = pygame.Rect(a+30, 700, 140, 32)
 '''obj[2][3]=[25,3]
 obj[7][5]=[25,4]
 obj[2][4]=[25,2]
@@ -252,7 +249,8 @@ def Who (past:list,x,y,two,one:int):
             px2 = x - 1
             py2 = y
     return [px2,py2]
-
+def binom (bio):
+    return ((bio+1)%2)
 
 
 
@@ -264,6 +262,7 @@ color_passive = pygame.Color('white')
 color = color_passive
 active = 0
 cell_vvod = 0
+page=0
 def draw_menu():
     # Draw the menu background
         menu_rect = pygame.Rect(a, 0, 200, 900)
@@ -275,27 +274,27 @@ def draw_menu():
         global cell_rect3
         global cell_rect4
         global cell_rect5
-        cell_rect1 = pygame.Rect(a + 20, 50, 160, 80)
-        pygame.draw.rect(screen, cell_color, cell_rect1)
-        cell_text1 = font.render("Object".format(1), True, (255, 255, 255))
-        screen.blit(cell_text1, (a + 40, 35 + 50))
-        cell_rect2 = pygame.Rect(a + 20, 150, 160, 80)
-        pygame.draw.rect(screen, 'gold', cell_rect2)
-        cell_text2 = font.render("Printer".format(2), True, (255, 255, 255))
-        screen.blit(cell_text2, (a + 40, 35 + 150))
-        cell_rect3 = pygame.Rect(a + 20, 250, 160, 80)
-        pygame.draw.rect(screen, 'blue', cell_rect3)
-        cell_text3 = font.render("Dublicator".format(3), True, (255, 255, 255))
-        screen.blit(cell_text3, (a + 40, 35 + 250))
-        cell_rect4 = pygame.Rect(a + 20, 350, 160, 80)
-        pygame.draw.rect(screen, 'green', cell_rect4)
-        cell_text4 = font.render("Generator".format(4), True, (255, 255, 255))
-        screen.blit(cell_text4, (a + 40, 35 + 350))
-        cell_rect5 = pygame.Rect(a + 20, 450, 160, 80)
-        pygame.draw.rect(screen, 'orange', cell_rect5)
-        cell_text5 = font.render("Converter".format(1), True, (255, 255, 255))
-        screen.blit(cell_text5, (a + 40, 35 + 450))
-
+        if page == 0:
+            cell_rect1 = pygame.Rect(a + 20, 50, 160, 80)
+            pygame.draw.rect(screen, cell_color, cell_rect1)
+            cell_text1 = font.render("Object".format(1), True, (255, 255, 255))
+            screen.blit(cell_text1, (a + 40, 35 + 50))
+            cell_rect2 = pygame.Rect(a + 20, 150, 160, 80)
+            pygame.draw.rect(screen, 'gold', cell_rect2)
+            cell_text2 = font.render("Printer".format(2), True, (255, 255, 255))
+            screen.blit(cell_text2, (a + 40, 35 + 150))
+            cell_rect3 = pygame.Rect(a + 20, 250, 160, 80)
+            pygame.draw.rect(screen, 'blue', cell_rect3)
+            cell_text3 = font.render("Dublicator".format(3), True, (255, 255, 255))
+            screen.blit(cell_text3, (a + 40, 35 + 250))
+            cell_rect4 = pygame.Rect(a + 20, 350, 160, 80)
+            pygame.draw.rect(screen, 'green', cell_rect4)
+            cell_text4 = font.render("Generator".format(4), True, (255, 255, 255))
+            screen.blit(cell_text4, (a + 40, 35 + 350))
+            cell_rect5 = pygame.Rect(a + 20, 450, 160, 80)
+            pygame.draw.rect(screen, 'orange', cell_rect5)
+            cell_text5 = font.render("Converter".format(1), True, (255, 255, 255))
+            screen.blit(cell_text5, (a + 40, 35 + 450))
     # Draw the settings in the lower part of the menu
         if cell_vvod==1:
             direction_text = font.render("Direction: ", True, (0, 0, 0))
@@ -392,41 +391,22 @@ def handle_events():
             if input_rect1.collidepoint(event.pos):
                 active = 1
                 print(1)
-            elif input_rect2.collidepoint(event.pos):
-                active = 2
-                print(2)
-            elif input_rect3.collidepoint(event.pos):
+            elif input_rect4.collidepoint(event.pos):
                 active = 3
                 print(3)
-            elif input_rect4.collidepoint(event.pos):
-                active = 4
-                print(4)
-            elif input_rect5.collidepoint(event.pos):
+            elif input_rect2.collidepoint(event.pos):
                 active = 5
                 print(5)
-            elif input_rect6.collidepoint(event.pos):
+            elif input_rect3.collidepoint(event.pos):
                 active = 6
                 print(6)
-            elif input_rectdud1.collidepoint(event.pos):
-                active = 7
-                print('12345')
-            elif input_rectdud11.collidepoint(event.pos):
-                active = 8
-                print('1234')
-            elif input_rectdud12.collidepoint(event.pos):
-                active = 9
-                print('123456')
-            elif input_rectdud13.collidepoint(event.pos):
-                active = 10
-                print('234567')
-            elif input_rect7.collidepoint(event.pos):
-                active = 11
-                print(1)
             else:
                 active = 0
         if event.type == pygame.KEYDOWN:
             if event.key==pygame.K_SPACE:
-                Time_stop=(Time_stop+1)%2
+                Time_stop=binom((Time_stop))
+            if event.key==pygame.K_p:
+                page=binom(page)
             if event.key==pygame.K_q:
                 running_man=(running_man+1)%2
                 if running_man==1:
@@ -535,7 +515,7 @@ def handle_events():
                         u=u
                     else:
                         user_text_value += event.unicode
-            elif active == 3:
+            elif (active == 3) a:
                 if event.key == pygame.K_RETURN:
                     user_text_ticks = ''
                 elif event.key == pygame.K_BACKSPACE:
