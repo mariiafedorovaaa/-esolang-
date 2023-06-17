@@ -312,7 +312,7 @@ def draw_menu():
             cell_rect7 = pygame.Rect(a + 20, 150, 160, 80)
             pygame.draw.rect(screen, 'pink', cell_rect7)
             cell_text7 = font.render("Logical operator".format(2), True, (255, 255, 255))
-            screen.blit(cell_text7, (a + 40, 35 + 150))
+            screen.blit(cell_text7, (a + 17, 35 + 150))
             cell_rect8 = pygame.Rect(a + 20, 250, 160, 80)
             pygame.draw.rect(screen, 'brown', cell_rect8)
             cell_text8 = font.render("Redirector".format(3), True, (255, 255, 255))
@@ -334,7 +334,7 @@ def draw_menu():
             down_text = font.render("Down: ", True, (0, 0, 0))
             screen.blit(down_text, (a+20, 670))
             left_text = font.render("Left:", True, (0, 0, 0))
-            screen.blit(left_text, (a+20, 720))
+            screen.blit(left_text, (a+20, 730))
         elif cell_vvod == 4:
             direction_text = font.render("Direction: ", True, (0, 0, 0))
             screen.blit(direction_text, (a+20, 550))
@@ -349,8 +349,8 @@ def draw_menu():
             screen.blit(direction2_text, (a + 20, 610))
             directionres_text = font.render("Result direction: ", True, (0, 0, 0))
             screen.blit(directionres_text, (a+20, 670))
-            action_text == font.render("Action: ", True, (0, 0, 0))
-            screen.blit(action_text, (a + 20, 720))
+            action_text = font.render("Action: ", True, (0, 0, 0))
+            screen.blit(action_text, (a + 20, 730))
         elif cell_vvod == 8:
             direction1_text = font.render("Direction1: ", True, (0, 0, 0))
             screen.blit(direction1_text, (a+20, 550))
@@ -375,6 +375,9 @@ def handle_events():
     global fild
     global W
     global H
+    global cell_vvod
+    global page
+    global active
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -436,6 +439,8 @@ def handle_events():
         if event.type == pygame.KEYDOWN:
             if event.key==pygame.K_SPACE:
                 Time_stop=(Time_stop+1)%2
+            if event.key==pygame.K_p:
+                page=binom(page)
             if event.key==pygame.K_q:
                 running_man=(running_man+1)%2
                 if running_man==1:
