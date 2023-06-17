@@ -24,9 +24,9 @@ pushed=[0]*W
 
 input_rect_table=[0]*12
 for i in range (12):
-    input_rect_table[i]=['']*10
+    input_rect_table[i]=[0]*10
 input_rect_table[1][1]=pygame.Rect(a+30, 580, 140, 32)
-input_rect_table[2][1]=pygame.Rect(a+30, 580, 140, 32)
+input_rect_table[2][1]=pygame.Rect(a+30, 640, 140, 32)
 
 input_rect_table[1][3]=pygame.Rect(a+30, 580, 140, 32)
 input_rect_table[2][3]=pygame.Rect(a+30, 640, 140, 32)
@@ -34,7 +34,8 @@ input_rect_table[3][3]=pygame.Rect(a+30, 700, 140, 32)
 input_rect_table[4][3]=pygame.Rect(a+30, 750, 140, 32)
 
 input_rect_table[1][4]=pygame.Rect(a+30, 580, 140, 32)
-input_rect_table[2][4]=pygame.Rect(a+30, 580, 140, 32)
+input_rect_table[2][4]=pygame.Rect(a+30, 640, 140, 32)
+input_rect_table[3][4]=pygame.Rect(a+30, 700, 140, 32)
 
 input_rect_table[1][5]=pygame.Rect(a+30, 580, 140, 32)
 input_rect_table[2][5]=pygame.Rect(a+30, 640, 140, 32)
@@ -332,7 +333,7 @@ def draw_menu():
             screen.blit(up_text, (a+20, 610))
             down_text = font.render("Down: ", True, (0, 0, 0))
             screen.blit(down_text, (a+20, 670))
-            left_text = font.render("Lown: ", True, (0, 0, 0))
+            left_text = font.render("Left:", True, (0, 0, 0))
             screen.blit(left_text, (a+20, 720))
         elif cell_vvod == 4:
             direction_text = font.render("Direction: ", True, (0, 0, 0))
@@ -418,8 +419,18 @@ def handle_events():
             if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==4) and (user_text_table[1][4]!='') and (user_text_table[3][4]!='')and(user_text_table[2][1]!=''):
                 gen[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=[int(user_text_table[2][1]),'0DRUL'.find(user_text_table[1][4][0]),int(user_text_table[3][4])]
             for i in range(1,5):
-                if input_rect_table[i][1].collidepoint(event.pos) or input_rect_table[i][2].collidepoint(event.pos) or input_rect_table[i][3].collidepoint(event.pos) or input_rect_table[i][4].collidepoint(event.pos) or input_rect_table[i][5].collidepoint(event.pos) or input_rect_table[i][6].collidepoint(event.pos) or input_rect_table[i][7].collidepoint(event.pos) or input_rect_table[i][8].collidepoint(event.pos):
+                if input_rect_table[i][3].collidepoint(event.pos) or input_rect_table[i][5].collidepoint(event.pos) or input_rect_table[i][6].collidepoint(event.pos) or input_rect_table[i][7].collidepoint(event.pos) or input_rect_table[i][8].collidepoint(event.pos):
                     active = i
+                elif input_rect_table[1][1].collidepoint(event.pos):
+                    active = 1
+                elif input_rect_table[2][1].collidepoint(event.pos):
+                    active = 2
+                elif input_rect_table[1][4].collidepoint(event.pos):
+                    active=1
+                elif input_rect_table[2][4].collidepoint(event.pos):
+                    active = 2
+                elif input_rect_table[3][4].collidepoint(event.pos):
+                    active = 3
                 else:
                     active = 0
         if event.type == pygame.KEYDOWN:
