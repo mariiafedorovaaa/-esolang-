@@ -12,7 +12,7 @@ waitFPS = 3
 Time_stop = 0
 running_man=1
 
-running=[0]*W
+running=[[0]*H]*W
 fild=[0]*W
 obj=[0]*W
 gen=[0]*W
@@ -21,55 +21,64 @@ inc=[0]*W
 Dudlicator=[0]*W
 Converter=[0]*W
 pushed=[0]*W
-input_rect1 = pygame.Rect(a+30.5, 580, 140, 32)
+
+input_rect_table=[0]*12
+for i in range (12):
+    input_rect_table[i]=['']*10
+input_rect_table[1][1]=pygame.Rect(a+30, 580, 140, 32)
+input_rect_table[2][1]=pygame.Rect(a+30, 580, 140, 32)
+
+input_rect_table[1][3]=pygame.Rect(a+30, 580, 140, 32)
+input_rect_table[2][3]=pygame.Rect(a+30, 640, 140, 32)
+input_rect_table[3][3]=pygame.Rect(a+30, 700, 140, 32)
+input_rect_table[4][3]=pygame.Rect(a+30, 750, 140, 32)
+
+input_rect_table[1][4]=pygame.Rect(a+30, 580, 140, 32)
+input_rect_table[2][4]=pygame.Rect(a+30, 580, 140, 32)
+
+input_rect_table[1][5]=pygame.Rect(a+30, 580, 140, 32)
+input_rect_table[2][5]=pygame.Rect(a+30, 640, 140, 32)
+input_rect_table[3][5]=pygame.Rect(a+30, 700, 140, 32)
+input_rect_table[4][5]=pygame.Rect(a+30, 750, 140, 32)
+
+input_rect_table[1][6]=pygame.Rect(a+30, 580, 140, 32)
+input_rect_table[2][6]=pygame.Rect(a+30, 640, 140, 32)
+input_rect_table[3][6]=pygame.Rect(a+30, 700, 140, 32)
+input_rect_table[4][6]=pygame.Rect(a+30, 750, 140, 32)
+
+input_rect_table[1][7]=pygame.Rect(a+30, 580, 140, 32)
+input_rect_table[2][7]=pygame.Rect(a+30, 640, 140, 32)
+input_rect_table[3][7]=pygame.Rect(a+30, 700, 140, 32)
+input_rect_table[4][7]=pygame.Rect(a+30, 750, 140, 32)
+
+input_rect_table[1][8]=pygame.Rect(a+30, 580, 140, 32)
+input_rect_table[2][8]=pygame.Rect(a+30, 640, 140, 32)
+input_rect_table[3][8]=pygame.Rect(a+30, 700, 140, 32)
+input_rect_table[4][8]=pygame.Rect(a+30, 750, 140, 32)
+
 user_text_table=[0]*12
 for i in range (12):
     user_text_table[i]=['']*10
+user_text_direction = [0]*4
 for i in range (W):
+    pr[i]=[0]*H
     obj[i]=[0]*H
     gen[i]=[0]*H
-    pr[i]=[0]*H
-    inc[i]=[0]*H
-    fild[i]=[0]*H
     Dudlicator[i]=['']*H
     Converter[i]=['']*H
     pushed[i]=[0]*H
-    run[i]=[0]*H
+    running[i]=[0]*H
 
 pygame.init()
 surface = pygame.display.set_mode(RES)
 clock = pygame.time.Clock()
-user_text_direction = ['']*15
-user_text_value = ''
-user_text_ticks=''
-user_text_direction1=''
-user_text_directiondud = ''
-user_text_directiondud11 = ''
-user_text_directiondud12 = ''
-user_text_directiondud13 = ''
-user_text_direction2=''
-user_text_directionres=''
-user_text_action = ''
-input_rect1 = pygame.Rect(a+30, 580, 140, 32)
-input_rect4 = pygame.Rect(a+30, 750, 140, 32)
-input_rect2 = pygame.Rect(a+30, 640, 140, 32)
-input_rect3 = pygame.Rect(a+30, 700, 140, 32)
-'''obj[2][3]=[25,3]
+
+obj[2][3]=[25,3]
 obj[7][5]=[25,4]
 obj[2][4]=[25,2]
-gen[5][6]=[2,1,5]
-pr[5][2]=1'''
-Dudlicator[17][10]='d'
-fild[17][10]=3
-Dudlicator[8][10]='r'
-fild[8][10]=3
-Dudlicator[8][18]='u'
-fild[8][18]=3
-Dudlicator[17][18]='l'
-fild[17][18]=3
-Converter[4][4]='r+d=l'
-fild[4][4]=5
 
+def binom (bio):
+    return ((bio+1)%2)
 def run (past:list,c,d,e:int):
     global fild
     global pushed
@@ -249,9 +258,6 @@ def Who (past:list,x,y,two,one:int):
             px2 = x - 1
             py2 = y
     return [px2,py2]
-def binom (bio):
-    return ((bio+1)%2)
-
 
 
 screen = pygame.display.set_mode(RES)
@@ -264,16 +270,18 @@ active = 0
 cell_vvod = 0
 page=0
 def draw_menu():
-    # Draw the menu background
-        menu_rect = pygame.Rect(a, 0, 200, 900)
-        pygame.draw.rect(screen, menu_color, menu_rect)
-
-    # Draw the cells in the upper part of the menu
         global cell_rect1
         global cell_rect2
         global cell_rect3
         global cell_rect4
         global cell_rect5
+        global cell_rect6
+        global cell_rect7
+        global cell_rect8
+        # Draw the menu background
+        menu_rect = pygame.Rect(a, 0, 200, 900)
+        pygame.draw.rect(screen, menu_color, menu_rect)
+        # Draw the cells in the upper part of the menu
         if page == 0:
             cell_rect1 = pygame.Rect(a + 20, 50, 160, 80)
             pygame.draw.rect(screen, cell_color, cell_rect1)
@@ -295,58 +303,71 @@ def draw_menu():
             pygame.draw.rect(screen, 'orange', cell_rect5)
             cell_text5 = font.render("Converter".format(1), True, (255, 255, 255))
             screen.blit(cell_text5, (a + 40, 35 + 450))
+        elif page == 1:
+            cell_rect6 = pygame.Rect(a + 20, 50, 160, 80)
+            pygame.draw.rect(screen, 'violet', cell_rect6)
+            cell_text6 = font.render("If".format(1), True, (255, 255, 255))
+            screen.blit(cell_text6, (a + 40, 35 + 50))
+            cell_rect7 = pygame.Rect(a + 20, 150, 160, 80)
+            pygame.draw.rect(screen, 'pink', cell_rect7)
+            cell_text7 = font.render("Logical operator".format(2), True, (255, 255, 255))
+            screen.blit(cell_text7, (a + 40, 35 + 150))
+            cell_rect8 = pygame.Rect(a + 20, 250, 160, 80)
+            pygame.draw.rect(screen, 'brown', cell_rect8)
+            cell_text8 = font.render("Redirector".format(3), True, (255, 255, 255))
+            screen.blit(cell_text8, (a + 40, 35 + 250))
+
     # Draw the settings in the lower part of the menu
         if cell_vvod==1:
             direction_text = font.render("Direction: ", True, (0, 0, 0))
             screen.blit(direction_text, (a+20, 550))
             amount_text = font.render("Value: ", True, (0, 0, 0))
-            screen.blit(amount_text, (a+20, 650))
+            screen.blit(amount_text, (a+20, 610))
         elif cell_vvod==2:
             pass
         elif cell_vvod==3:
-            direction_text1 = font.render("Down: ", True, (0, 0, 0))
-            screen.blit(direction_text1, (a+20, 550))
-            direction_text2 = font.render("Right: ", True, (0, 0, 0))
-            screen.blit(direction_text2, (a+20, 620))
-            direction_text3 = font.render("Up: ", True, (0, 0, 0))
-            screen.blit(direction_text3, (a+20, 675))
-            direction_text4 = font.render("Left: ", True, (0, 0, 0))
-            screen.blit(direction_text4, (a+20, 730))
-        elif cell_vvod==4:
+            right_text = font.render("Right: ", True, (0, 0, 0))
+            screen.blit(right_text, (a+20, 550))
+            up_text = font.render("Up: ", True, (0, 0, 0))
+            screen.blit(up_text, (a+20, 610))
+            down_text = font.render("Down: ", True, (0, 0, 0))
+            screen.blit(down_text, (a+20, 670))
+            left_text = font.render("Lown: ", True, (0, 0, 0))
+            screen.blit(left_text, (a+20, 720))
+        elif cell_vvod == 4:
             direction_text = font.render("Direction: ", True, (0, 0, 0))
             screen.blit(direction_text, (a+20, 550))
             amount_text = font.render("Value: ", True, (0, 0, 0))
-            screen.blit(amount_text, (a+20, 650))
+            screen.blit(amount_text, (a+20, 610))
             ticks_text = font.render('Ticks:', True, (0, 0, 0))
-            screen.blit(ticks_text, (a + 20, 720))
-        elif cell_vvod==5:
+            screen.blit(ticks_text, (a + 20, 670))
+        elif cell_vvod == 5 or cell_vvod == 6:
             direction1_text = font.render("Direction1: ", True, (0, 0, 0))
             screen.blit(direction1_text, (a+20, 550))
             direction2_text = font.render("Direction2: ", True, (0, 0, 0))
-            screen.blit(direction2_text, (a + 20, 620))
+            screen.blit(direction2_text, (a + 20, 610))
             directionres_text = font.render("Result direction: ", True, (0, 0, 0))
-            screen.blit(directionres_text, (a+20, 680))
-            action_text =  font.render("Action: ", True, (0, 0, 0))
-            screen.blit(action_text, (a+20, 733))
+            screen.blit(directionres_text, (a+20, 670))
+            action_text == font.render("Action: ", True, (0, 0, 0))
+            screen.blit(action_text, (a + 20, 720))
+        elif cell_vvod == 8:
+            direction1_text = font.render("Direction1: ", True, (0, 0, 0))
+            screen.blit(direction1_text, (a+20, 550))
+            direction2_text = font.render("Direction2: ", True, (0, 0, 0))
+            screen.blit(direction2_text, (a + 20, 610))
+            directionres0_text = font.render("0Direction: ", True, (0, 0, 0))
+            screen.blit(direction0_text, (a+20, 670))
+            directionres0_text = font.render("1Direction: ", True, (0, 0, 0))
+            screen.blit(direction1_text, (a + 20, 720))
+
 
         pygame.display.update()
 
 
-# Define the event handling function
+
 def handle_events():
-    global user_text_ticks
-    global user_text_direction
-    global user_text_direction1
-    global user_text_direction2
-    global user_text_directiondud
-    global user_text_directiondud11
-    global user_text_directiondud12
-    global user_text_directiondud13
-    global user_text_directionres
-    global user_text_value
-    global user_text_action
-    global active
-    global cell_vvod
+    global user_text_table
+    global table
     global Time_stop
     global running_man
     global running
@@ -361,52 +382,49 @@ def handle_events():
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             print(mouse_pos[0])
-
-            if cell_rect1.collidepoint(mouse_pos):
-                print("Cell clicked! "+str(1))
-                cell_vvod=1
-            if cell_rect2.collidepoint(mouse_pos):
-                print("Cell clicked! "+str(2))
-                cell_vvod=2
-            if cell_rect3.collidepoint(mouse_pos):
-                print("Cell clicked! " + str(3))
-                cell_vvod = 3
-            if cell_rect4.collidepoint(mouse_pos):
-                print("Cell clicked! " + str(4))
-                cell_vvod = 4
-            if cell_rect5.collidepoint(mouse_pos):
-                print("Cell clicked! " + str(5))
-                cell_vvod = 5
-            if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==1) and (user_text_direction[1]!='') and (user_text_value!=''):
-                obj[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=[int(user_text_value),'0DRUL'.find(user_text_direction[1][0])]
+            if page == 0:
+                if cell_rect1.collidepoint(mouse_pos):
+                    print("Cell clicked! "+str(1))
+                    cell_vvod=1
+                if cell_rect2.collidepoint(mouse_pos):
+                    print("Cell clicked! "+str(2))
+                    cell_vvod=2
+                if cell_rect3.collidepoint(mouse_pos):
+                    print("Cell clicked! " + str(3))
+                    cell_vvod = 3
+                if cell_rect4.collidepoint(mouse_pos):
+                    print("Cell clicked! " + str(4))
+                    cell_vvod = 4
+                if cell_rect5.collidepoint(mouse_pos):
+                    print("Cell clicked! " + str(5))
+                    cell_vvod = 5
+            elif page == 1:
+                if cell_rect6.collidepoint(mouse_pos):
+                    print("Cell clicked! " + str(6))
+                    cell_vvod = 6
+                if cell_rect7.collidepoint(mouse_pos):
+                    print("Cell clicked! " + str(7))
+                    cell_vvod = 7
+                if cell_rect8.collidepoint(mouse_pos):
+                    print("Cell clicked! " + str(8))
+                    cell_vvod = 8
+            if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==1) and (user_text_table[1][1]!='') and (user_text_table[2][1]!=''):
+                obj[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=[int(user_text_table[2][1]),'0DRUL'.find(user_text_table[1][1][0])]
             if (mouse_pos[0] < a) and (mouse_pos[1] < b) and (cell_vvod == 2):
                 pr[mouse_pos[0]//TILE][mouse_pos[1]//TILE]=1
-            if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==3) and (user_text_direction[3]!=''):
-                Dudlicator[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = '0drul'['0DRUL'.find(user_text_direction[3][0])]+'0drul'['0DRUL'.find(user_text_direction[5][0])]+'0drul'['0DRUL'.find(user_text_direction[6][0])]+'0drul'['0DRUL'.find(user_text_direction[7][0])]
+            if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==3) and (user_text_table[1][3]!=''):
+                Dudlicator[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = '0drul'['0DRUL'.find(user_text_table[1][3][0])]+'0drul'['0DRUL'.find(user_text_direction[5][0])]+'0drul'['0DRUL'.find(user_text_direction[6][0])]+'0drul'['0DRUL'.find(user_text_direction[7][0])]
                 fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=3
-            if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==4) and (user_text_direction[4]!='') and (user_text_ticks!='')and(user_text_value!=''):
-                gen[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=[int(user_text_value),'0DRUL'.find(user_text_direction[4][0]),int(user_text_ticks)]
-
-
-            if input_rect1.collidepoint(event.pos):
-                active = 1
-                print(1)
-            elif input_rect4.collidepoint(event.pos):
-                active = 3
-                print(3)
-            elif input_rect2.collidepoint(event.pos):
-                active = 5
-                print(5)
-            elif input_rect3.collidepoint(event.pos):
-                active = 6
-                print(6)
-            else:
-                active = 0
+            if (mouse_pos[0]<a) and (mouse_pos[1]<b) and (cell_vvod==4) and (user_text_table[1][4]!='') and (user_text_table[3][4]!='')and(user_text_table[2][1]!=''):
+                gen[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=[int(user_text_table[2][1]),'0DRUL'.find(user_text_table[1][4][0]),int(user_text_table[3][4])]
+            for i in range(1,5):
+                if input_rect_table[i][1].collidepoint(event.pos) or input_rect_table[i][2].collidepoint(event.pos) or input_rect_table[i][3].collidepoint(event.pos) or input_rect_table[i][4].collidepoint(event.pos) or input_rect_table[i][5].collidepoint(event.pos) or input_rect_table[i][6].collidepoint(event.pos) or input_rect_table[i][7].collidepoint(event.pos) or input_rect_table[i][8].collidepoint(event.pos):
+                    active = i
+                else:
+                    active = 0
         if event.type == pygame.KEYDOWN:
             if event.key==pygame.K_SPACE:
-                Time_stop=binom((Time_stop))
-            if event.key==pygame.K_p:
-                page=binom(page)
+                Time_stop=(Time_stop+1)%2
             if event.key==pygame.K_q:
                 running_man=(running_man+1)%2
                 if running_man==1:
@@ -415,186 +433,359 @@ def handle_events():
                         running[i]=[0]*H
             if active == 1 and cell_vvod == 1:
                 if event.key == pygame.K_RETURN:
-                    user_text_direction[1] = ''
+                    user_text_table[1][1] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_direction[1] = user_text_direction[1][:-1]
+                    user_text_table[1][1] = user_text_table[1][1][:-1]
                 elif event.key == pygame.K_RIGHT:
-                    user_text_direction[1] = ''
-                    user_text_direction[1] += 'Right'
+                    user_text_table[1][1] = ''
+                    user_text_table[1][1] += 'Right'
                 elif event.key == pygame.K_LEFT:
-                    user_text_direction[1] = ''
-                    user_text_direction[1] += 'Left'
+                    user_text_table[1][1] = ''
+                    user_text_table[1][1] += 'Left'
                 elif event.key == pygame.K_UP:
-                    user_text_direction[1] = ''
-                    user_text_direction[1] += 'Up'
+                    user_text_table[1][1] = ''
+                    user_text_table[1][1] += 'Up'
                 elif event.key == pygame.K_DOWN:
-                    user_text_direction[1] = ''
-                    user_text_direction[1] += 'Down'
+                    user_text_table[1][1] = ''
+                    user_text_table[1][1] += 'Down'
                 else:
                     print('error')
-            elif active == 7:
+            elif active == 2 and cell_vvod == 1:
                 if event.key == pygame.K_RETURN:
-                    user_text_directiondud = ''
+                    user_text_table[2][1] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_directiondud = user_text_directiondud[:-1]
+                    user_text_table[2][1] = user_text_table[2][1][:-1]
+                else:
+                    u=''
+                    u+=event.unicode
+                    if ('1234567890'.find(u)==-1) or (len(user_text_table[2][1])>3):
+                        u=u
+                    else:
+                        user_text_table[2][1] += event.unicode
+            elif active == 1 and cell_vvod == 3:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[1][3] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[1][3] = user_text_table[1][3][:-1]
                 elif event.key == pygame.K_1:
-                    user_text_directiondud = '1'
-                    user_text_direction[5] = 'Down'
+                    user_text_table[1][3] = '1'
+                    user_text_direction[0] ='Right'
                 elif event.key == pygame.K_0:
-                    user_text_directiondud = '0'
-                    user_text_direction[5] = '0'
+                    user_text_table[1][3] = '0'
+                    user_text_direction[0] = '0'
                 else:
                     print('error')
-            elif active == 8:
+            elif active == 2 and cell_vvod == 3:
                 if event.key == pygame.K_RETURN:
-                    user_text_directiondud11 = ''
+                    user_text_table[2][3] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_directiondud11 = user_text_directiondud11[:-1]
+                    user_text_table[2][3] = user_text_table[2][3][:-1]
                 elif event.key == pygame.K_1:
-                    user_text_directiondud11 = '1'
-                    user_text_direction[6] ='Right'
+                    user_text_table[2][3] = '1'
+                    user_text_direction[1] ='Up'
                 elif event.key == pygame.K_0:
-                    user_text_directiondud11 = '0'
-                    user_text_direction[6] = '0'
+                    user_text_table[2][3] = '0'
+                    user_text_direction[1] = '0'
                 else:
                     print('error')
-            elif active == 9:
+            elif active == 3 and cell_vvod == 3:
                 if event.key == pygame.K_RETURN:
-                    user_text_directiondud12 = ''
+                    user_text_table[3][3] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_directiondud12 = user_text_directiondud12[:-1]
+                    user_text_table[3][3] = user_text_table[3][3][:-1]
                 elif event.key == pygame.K_1:
-                    user_text_directiondud12 = '1'
-                    user_text_direction[7] ='Up'
+                    user_text_table[3][3] = '1'
+                    user_text_direction[2] ='Down'
                 elif event.key == pygame.K_0:
-                    user_text_directiondud12 = '0'
-                    user_text_direction[7] = '0'
+                    user_text_table[3][3] = '0'
+                    user_text_direction[2] = '0'
                 else:
                     print('error')
-            elif active == 10:
+            elif active == 4 and cell_vvod == 3:
                 if event.key == pygame.K_RETURN:
-                    user_text_directiondud13 = ''
+                    user_text_table[4][3] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_directiondud13 = user_text_directiondud13[:-1]
+                    user_text_table[4][3] = user_text_table[4][3][:-1]
                 elif event.key == pygame.K_1:
-                    user_text_directiondud13 = '1'
-                    user_text_direction[8] = 'Left'
+                    user_text_table[4][3] = '1'
+                    user_text_direction[2] ='Left'
                 elif event.key == pygame.K_0:
-                    user_text_directiondud13 = '0'
-                    user_text_direction[8] = '0'
+                    user_text_table[4][3] = '0'
+                    user_text_direction[2] = '0'
                 else:
                     print('error')
             elif active == 1 and cell_vvod == 4:
                 if event.key == pygame.K_RETURN:
-                    user_text_direction[4] = ''
+                    user_text_table[1][4] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_direction[4] = user_text_direction[4][:-1]
+                    user_text_table[1][4] = user_text_table[1][4][:-1]
                 elif event.key == pygame.K_RIGHT:
-                    user_text_direction[4] = ''
-                    user_text_direction[4] += 'Right'
+                    user_text_table[1][4] = ''
+                    user_text_table[1][4] += 'Right'
                 elif event.key == pygame.K_LEFT:
-                    user_text_direction[4] = ''
-                    user_text_direction[4] += 'Left'
+                    user_text_table[1][4] = ''
+                    user_text_table[1][4] += 'Left'
                 elif event.key == pygame.K_UP:
-                    user_text_direction[4] = ''
-                    user_text_direction[4] += 'Up'
+                    user_text_table[1][4] = ''
+                    user_text_table[1][4] += 'Up'
                 elif event.key == pygame.K_DOWN:
-                    user_text_direction[4] = ''
-                    user_text_direction[4] += 'Down'
+                    user_text_table[1][4] = ''
+                    user_text_table[1][4] += 'Down'
                 else:
                     print('error')
-            elif active == 2:
+            elif active == 2 and cell_vvod == 4:
                 if event.key == pygame.K_RETURN:
-                    user_text_value = ''
+                    user_text_table[2][4] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_value = user_text_value[:-1]
+                    user_text_table[2][4] = user_text_table[2][4][:-1]
                 else:
                     u=''
                     u+=event.unicode
-                    if ('1234567890'.find(u)==-1) or (len(user_text_value)>3):
+                    if ('1234567890'.find(u)==-1) or (len(user_text_table[2][4])>3):
                         u=u
                     else:
-                        user_text_value += event.unicode
-            elif (active == 3) a:
+                        user_text_table[2][4] += event.unicode
+            elif active == 1 and cell_vvod == 5:
                 if event.key == pygame.K_RETURN:
-                    user_text_ticks = ''
+                    user_text_table[1][5] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_ticks = user_text_ticks[:-1]
+                    user_text_table[1][5] = user_text_table[1][5][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[1][5] = ''
+                    user_text_table[1][5] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[1][5] = ''
+                    user_text_table[1][5] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[1][5] = ''
+                    user_text_table[1][5] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[1][5] = ''
+                    user_text_table[1][5] += 'Down'
+            elif active == 2 and cell_vvod == 5:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[2][5] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[2][5] = user_text_table[2][5][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[2][5] = ''
+                    user_text_table[2][5] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[2][5] = ''
+                    user_text_table[2][5] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[2][5] = ''
+                    user_text_table[2][5] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[2][5] = ''
+                    user_text_table[1][4] += 'Down'
+            elif active == 3 and cell_vvod == 5:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[3][5] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[3][5] = user_text_table[3][5][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[3][5] = ''
+                    user_text_table[3][5] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[3][5] = ''
+                    user_text_table[3][5] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[3][5] = ''
+                    user_text_table[3][5] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[3][5] = ''
+                    user_text_table[3][5] += 'Down'
+            elif active == 4 and cell_vvod == 5:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[4][5] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[4][5] = user_text_table[4][5][:-1]
                 else:
-                    user_text_ticks+=event.unicode
-                    if ('1234567890'.find(user_text_ticks)==-1) or (len(user_text_ticks)>=3):
-                        user_text_ticks=user_text_ticks
+                    user_text_table[4][5]=''
+                    user_text_table[4][5]+=event.unicode
+                    if (len(user_text_table[4][5])>1) or user_text_table[4][5] != '-' or user_text_table[4][5] != '+' or user_text_table[4][5] != ':' or user_text_table[4][5] != '*' or user_text_table[4][5] != '%':
+                        user_text_table[4][5]=user_text_table[4][5]
                     else:
-                        user_text_ticks += event.unicode
-            elif active == 4:
+                        user_text_table[4][5] += event.unicode
+            elif active == 3 and cell_vvod == 4:
                 if event.key == pygame.K_RETURN:
-                    user_text_direction1 = ''
+                    user_text_table[3][4] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_direction1 = user_text_direction1[:-1]
-                elif event.key == pygame.K_RIGHT:
-                    user_text_direction1 = ''
-                    user_text_direction1 += 'Right'
-                elif event.key == pygame.K_LEFT:
-                    user_text_direction1 = ''
-                    user_text_direction1 += 'Left'
-                elif event.key == pygame.K_UP:
-                    user_text_direction1 = ''
-                    user_text_direction1 += 'Up'
-                elif event.key == pygame.K_DOWN:
-                    user_text_direction1 = ''
-                    user_text_direction1 += 'Down'
+                    user_text_table[3][4] = user_text_table[3][4][:-1]
                 else:
-                    print('error')
-            elif active == 5:
-                if event.key == pygame.K_RETURN:
-                    user_text_direction2 = ''
-                elif event.key == pygame.K_BACKSPACE:
-                    user_text_direction2 = user_text_direction2[:-1]
-                elif event.key == pygame.K_RIGHT:
-                    user_text_direction2 = ''
-                    user_text_direction2 += 'Right'
-                elif event.key == pygame.K_LEFT:
-                    user_text_direction2 = ''
-                    user_text_direction2 += 'Left'
-                elif event.key == pygame.K_UP:
-                    user_text_direction2 = ''
-                    user_text_direction2 += 'Up'
-                elif event.key == pygame.K_DOWN:
-                    user_text_direction2 = ''
-                    user_text_direction2 += 'Down'
-                else:
-                    print('error')
-            elif active == 6:
-                if event.key == pygame.K_RETURN:
-                    user_text_directionres = ''
-                elif event.key == pygame.K_BACKSPACE:
-                    user_text_directionres = user_text_directionres[:-1]
-                elif event.key == pygame.K_RIGHT:
-                    user_text_directionres = ''
-                    user_text_directionres += 'Right'
-                elif event.key == pygame.K_LEFT:
-                    user_text_directionres = ''
-                    user_text_directionres += 'Left'
-                elif event.key == pygame.K_UP:
-                    user_text_directionres = ''
-                    user_text_directionres += 'Up'
-                elif event.key == pygame.K_DOWN:
-                    user_text_directionres = ''
-                    user_text_directionres += 'Down'
-                else:
-                    print('error')
-            elif active == 11:
-                if event.key == pygame.K_RETURN:
-                    user_text_action = ''
-                elif event.key == pygame.K_BACKSPACE:
-                    user_text_action = user_text_action[:-1]
-                else:
-                    user_text_action=''
-                    user_text_action+=event.unicode
-                    if (len(user_text_action)>1) or user_text_action != '-' or user_text_action != '+' or user_text_action != ':' or user_text_action != '*' or user_text_action != '%':
-                        user_text_action=user_text_action
+                    u=''
+                    u+=event.unicode
+                    if ('1234567890'.find(u)==-1) or (len(user_text_table[3][4])>3):
+                        u=u
                     else:
-                        user_text_action += event.unicode
+                        user_text_table[3][4] += event.unicode
+            elif active == 1 and cell_vvod == 6:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[1][6] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[1][6] = user_text_table[1][6][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[1][6] = ''
+                    user_text_table[1][6] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[1][6] = ''
+                    user_text_table[1][6] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[1][6] = ''
+                    user_text_table[1][6] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[1][6] = ''
+                    user_text_table[1][6] += 'Down'
+            elif active == 2 and cell_vvod == 6:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[2][6] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[2][6] = user_text_table[2][6][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[2][6] = ''
+                    user_text_table[2][6] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[2][6] = ''
+                    user_text_table[2][6] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[2][6] = ''
+                    user_text_table[2][6] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[2][6] = ''
+                    user_text_table[2][6] += 'Down'
+            elif active == 1 and cell_vvod == 7:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[1][7] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[1][7] = user_text_table[1][7][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[1][7] = ''
+                    user_text_table[1][7] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[1][7] = ''
+                    user_text_table[1][7] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[1][7] = ''
+                    user_text_table[1][7] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[1][7] = ''
+                    user_text_table[1][7] += 'Down'
+            elif active == 2 and cell_vvod == 7:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[2][7] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[2][7] = user_text_table[2][7][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[2][7] = ''
+                    user_text_table[2][7] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[2][7] = ''
+                    user_text_table[2][7] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[2][7] = ''
+                    user_text_table[2][7] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[2][7] = ''
+                    user_text_table[2][7] += 'Down'
+            elif active == 1 and cell_vvod == 8:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[1][8] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[1][8] = user_text_table[1][8][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[1][8] = ''
+                    user_text_table[1][8] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[1][8] = ''
+                    user_text_table[1][8] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[1][8] = ''
+                    user_text_table[1][8] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[1][8] = ''
+                    user_text_table[1][8] += 'Down'
+            elif active == 2 and cell_vvod == 8:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[2][8] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[2][8] = user_text_table[1][8][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[2][8] = ''
+                    user_text_table[2][8] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[2][8] = ''
+                    user_text_table[2][8] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[2][8] = ''
+                    user_text_table[2][8] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[2][8] = ''
+                    user_text_table[2][8] += 'Down'
+            elif active == 3 and cell_vvod == 6:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[3][6] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[3][6] = user_text_table[3][6][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[3][6] = ''
+                    user_text_table[3][6] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[3][6] = ''
+                    user_text_table[3][6] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[3][6] = ''
+                    user_text_table[3][6] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[3][6] = ''
+                    user_text_table[3][6] += 'Down'
+            elif active == 3 and cell_vvod == 7:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[3][7] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[3][7] = user_text_table[3][7][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[3][7] = ''
+                    user_text_table[3][7] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[3][7] = ''
+                    user_text_table[3][7] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[3][7] = ''
+                    user_text_table[3][7] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[3][7] = ''
+                    user_text_table[3][7] += 'Down'
+            elif active == 4 and cell_vvod == 8:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[4][8] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[4][8] = user_text_table[4][8][:-1]
+                elif event.key == pygame.K_RIGHT:
+                    user_text_table[4][8] = ''
+                    user_text_table[4][8] += 'Right'
+                elif event.key == pygame.K_LEFT:
+                    user_text_table[4][8] = ''
+                    user_text_table[4][8] += 'Left'
+                elif event.key == pygame.K_UP:
+                    user_text_table[4][8] = ''
+                    user_text_table[4][8] += 'Up'
+                elif event.key == pygame.K_DOWN:
+                    user_text_table[4][8] = ''
+                    user_text_table[4][8] += 'Down'
+            elif active == 4 and cell_vvod == 7:
+                if event.key == pygame.K_RETURN:
+                    user_text_table[4][7] = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text_table[4][7] = user_text_table[4][7][:-1]
+                else:
+                    user_text_table[4][7]=''
+                    user_text_table[4][7]+=event.unicode
+                    if (len(user_text_table[4][7])>1) or user_text_table[4][7] != '&' or user_text_table[4][7] != '/' or user_text_table[4][7] != '}':
+                        user_text_table[4][7]=user_text_table[4][7]
+                    else:
+                        user_text_table[4][7] += event.unicode
+
 t=0
 
 while True:
@@ -602,91 +793,156 @@ while True:
     t=t+Time_stop
     handle_events()
     surface.fill(pygame.Color('white'))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
 
     [pygame.draw.line(surface, pygame.Color('darkslategray'), (x, 0), (x, HEIGHT)) for x in range(0, WIDTH, TILE)]
     [pygame.draw.line(surface, pygame.Color('darkslategray'), (0, y), (WIDTH, y)) for y in range(0, HEIGHT, TILE)]
-
     draw_menu()
     # Handle events
     if cell_vvod == 1:
-        pygame.draw.rect(screen, color, input_rect1)
-        text_surface1 = font.render(user_text_direction[1], True, (0, 0, 0))
-        pygame.draw.rect(screen, color, input_rect2)
-        text_surface2 = font.render(user_text_value, True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[1][1])
+        text_surface1 = font.render(user_text_table[1][1], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[2][1])
+        text_surface2 = font.render(user_text_table[2][1], True, (0, 0, 0))
         # render at position stated in arguments
 
-        screen.blit(text_surface1, (input_rect1.x, input_rect1.y + 20))
-        screen.blit(text_surface2, (input_rect2.x, input_rect2.y + 20))
+        screen.blit(text_surface1, (input_rect_table[1][1].x, input_rect_table[1][1].y + 20))
+        screen.blit(text_surface2, (input_rect_table[2][1].x, input_rect_table[2][1].y + 20))
         # set width of textfield so that text cannot get
         # outside of user's text input
-        input_rect1.w = max(100, text_surface1.get_width() + 10)
-        input_rect2.w = max(100, text_surface2.get_width() + 10)
+        input_rect_table[1][1].w = max(100, text_surface1.get_width() + 10)
+        input_rect_table[2][1].w = max(100, text_surface2.get_width() + 10)
     elif cell_vvod == 3:
-        pygame.draw.rect(screen, color, input_rectdud1)
-        text_surface3 = font.render(user_text_directiondud, True, (0, 0, 0))
-        screen.blit(text_surface3, (input_rectdud1.x, input_rectdud1.y + 20))
-        input_rectdud1.w = max(100, text_surface3.get_width() + 10)
-        pygame.draw.rect(screen, color, input_rectdud11)
-        text_surface77 = font.render(user_text_directiondud11, True, (0, 0, 0))
-        screen.blit(text_surface77, (input_rectdud11.x, input_rectdud11.y + 20))
-        input_rectdud11.w = max(100, text_surface77.get_width() + 10)
-        pygame.draw.rect(screen, color, input_rectdud12)
-        text_surface88 = font.render(user_text_directiondud12, True, (0, 0, 0))
-        screen.blit(text_surface88, (input_rectdud12.x, input_rectdud12.y + 20))
-        input_rectdud12.w = max(100, text_surface88.get_width() + 10)
-        pygame.draw.rect(screen, color, input_rectdud13)
-        text_surface99 = font.render(user_text_directiondud13, True, (0, 0, 0))
-        screen.blit(text_surface99, (input_rectdud13.x, input_rectdud13.y + 20))
-        input_rectdud13.w = max(100, text_surface99.get_width() + 10)
+        pygame.draw.rect(screen, color, input_rect_table[1][3])
+        text_surface3 = font.render(user_text_table[1][3], True, (0, 0, 0))
+        screen.blit(text_surface3, (input_rect_table[1][3].x, input_rect_table[1][3].y + 20))
+        input_rect_table[1][3].w = max(100, text_surface3.get_width() + 10)
+        pygame.draw.rect(screen, color, input_rect_table[2][3])
+        text_surface4 = font.render(user_text_table[2][3], True, (0, 0, 0))
+        screen.blit(text_surface4, (input_rect_table[2][3].x, input_rect_table[2][3].y + 20))
+        input_rect_table[2][3].w = max(100, text_surface4.get_width() + 10)
+        pygame.draw.rect(screen, color, input_rect_table[3][3])
+        text_surface5 = font.render(user_text_table[3][3], True, (0, 0, 0))
+        screen.blit(text_surface5, (input_rect_table[3][3].x, input_rect_table[3][3].y + 20))
+        input_rect_table[3][3].w = max(100, text_surface5.get_width() + 10)
+        pygame.draw.rect(screen, color, input_rect_table[4][3])
+        text_surface6 = font.render(user_text_table[4][3], True, (0, 0, 0))
+        screen.blit(text_surface6, (input_rect_table[4][3].x, input_rect_table[4][3].y + 20))
+        input_rect_table[4][3].w = max(100, text_surface6.get_width() + 10)
     elif cell_vvod == 4:
-        pygame.draw.rect(screen, color, input_rect1)
-        text_surface4 = font.render(user_text_direction[4], True, (0, 0, 0))
-        pygame.draw.rect(screen, color, input_rect2)
-        text_surface5 = font.render(user_text_value, True, (0, 0, 0))
-        pygame.draw.rect(screen, color, input_rect3)
-        text_surface6 = font.render(user_text_ticks, True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[1][4])
+        text_surface7 = font.render(user_text_table[1][4], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[2][4])
+        text_surface8 = font.render(user_text_table[2][4], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[3][4])
+        text_surface9 = font.render(user_text_table[3][4], True, (0, 0, 0))
         # render at position stated in arguments
 
-        screen.blit(text_surface4, (input_rect1.x, input_rect1.y + 20))
-        screen.blit(text_surface5, (input_rect2.x, input_rect2.y + 20))
-        screen.blit(text_surface6, (input_rect3.x, input_rect3.y + 20))
+        screen.blit(text_surface7, (input_rect_table[1][4].x, input_rect_table[1][4].y + 20))
+        screen.blit(text_surface8, (input_rect_table[2][4].x, input_rect_table[2][4].y + 20))
+        screen.blit(text_surface9, (input_rect_table[3][4].x, input_rect_table[3][4].y + 20))
         # set width of textfield so that text cannot get
         # outside of user's text input
-        input_rect1.w = max(100, text_surface4.get_width() + 10)
-        input_rect2.w = max(100, text_surface5.get_width() + 10)
-        input_rect3.w = max(100, text_surface6.get_width() + 10)
+        input_rect_table[1][4].w = max(100, text_surface7.get_width() + 10)
+        input_rect_table[2][4].w = max(100, text_surface8.get_width() + 10)
+        input_rect_table[3][4].w = max(100, text_surface9.get_width() + 10)
+    elif cell_vvod == 6:
+        pygame.draw.rect(screen, color, input_rect_table[1][6])
+        text_surface14 = font.render(user_text_table[1][6], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[2][6])
+        text_surface15 = font.render(user_text_table[2][6], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[3][6])
+        text_surface16 = font.render(user_text_table[3][6], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[4][6])
+        text_surface17 = font.render(user_text_table[4][6], True, (0, 0, 0))
+        # render at position stated in arguments
+
+        screen.blit(text_surface14, (input_rect_table[1][6].x, input_rect_table[1][6].y + 20))
+        screen.blit(text_surface15, (input_rect_table[2][6].x, input_rect_table[2][6].y + 20))
+        screen.blit(text_surface16, (input_rect_table[3][6].x, input_rect_table[3][6].y + 20))
+        screen.blit(text_surface17, (input_rect_table[4][6].x, input_rect_table[4][6].y + 20))
+        # set width of textfield so that text cannot get
+        # outside of user's text input
+        input_rect_table[1][6].w = max(100, text_surface14.get_width() + 10)
+        input_rect_table[2][6].w = max(100, text_surface15.get_width() + 10)
+        input_rect_table[3][6].w = max(100, text_surface16.get_width() + 10)
+        input_rect_table[4][6].w = max(100, text_surface17.get_width() + 10)
     elif cell_vvod == 5:
-        pygame.draw.rect(screen, color, input_rect4)
-        text_surface7 = font.render(user_text_direction1, True, (0, 0, 0))
-        pygame.draw.rect(screen, color, input_rect5)
-        text_surface8 = font.render(user_text_direction2, True, (0, 0, 0))
-        pygame.draw.rect(screen, color, input_rect6)
-        text_surface9 = font.render(user_text_directionres, True, (0, 0, 0))
-        pygame.draw.rect(screen, color, input_rect7)
-        text_surface10 = font.render(user_text_action, True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[1][5])
+        text_surface10 = font.render(user_text_table[1][5], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[2][5])
+        text_surface11 = font.render(user_text_table[2][5], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[3][5])
+        text_surface12 = font.render(user_text_table[3][5], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[4][5])
+        text_surface13 = font.render(user_text_table[4][5], True, (0, 0, 0))
         # render at position stated in arguments
 
-        screen.blit(text_surface7, (input_rect4.x, input_rect4.y + 20))
-        screen.blit(text_surface8, (input_rect5.x, input_rect5.y + 20))
-        screen.blit(text_surface9, (input_rect6.x, input_rect6.y + 20))
-        screen.blit(text_surface10, (input_rect7.x, input_rect7.y + 20))
+        screen.blit(text_surface10, (input_rect_table[1][5].x, input_rect_table[1][5].y + 20))
+        screen.blit(text_surface11, (input_rect_table[2][5].x, input_rect_table[2][5].y + 20))
+        screen.blit(text_surface12, (input_rect_table[3][5].x, input_rect_table[3][5].y + 20))
+        screen.blit(text_surface13, (input_rect_table[4][5].x, input_rect_table[4][5].y + 20))
         # set width of textfield so that text cannot get
         # outside of user's text input
-        input_rect4.w = max(100, text_surface7.get_width() + 10)
-        input_rect5.w = max(100, text_surface8.get_width() + 10)
-        input_rect6.w = max(100, text_surface9.get_width() + 10)
-        input_rect7.w = max(100, text_surface10.get_width() + 10)
+        input_rect_table[1][5].w = max(100, text_surface10.get_width() + 10)
+        input_rect_table[2][5].w = max(100, text_surface11.get_width() + 10)
+        input_rect_table[3][5].w = max(100, text_surface12.get_width() + 10)
+        input_rect_table[4][5].w = max(100, text_surface13.get_width() + 10)
+    elif cell_vvod == 7:
+        pygame.draw.rect(screen, color, input_rect_table[1][7])
+        text_surface18 = font.render(user_text_table[1][7], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[2][7])
+        text_surface19 = font.render(user_text_table[2][7], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[3][7])
+        text_surface20 = font.render(user_text_table[3][7], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[4][7])
+        text_surface21 = font.render(user_text_table[4][7], True, (0, 0, 0))
+        # render at position stated in arguments
+
+        screen.blit(text_surface18, (input_rect_table[1][7].x, input_rect_table[1][7].y + 20))
+        screen.blit(text_surface19, (input_rect_table[2][7].x, input_rect_table[2][7].y + 20))
+        screen.blit(text_surface20, (input_rect_table[3][7].x, input_rect_table[3][7].y + 20))
+        screen.blit(text_surface21, (input_rect_table[4][7].x, input_rect_table[4][7].y + 20))
+        # set width of textfield so that text cannot get
+        # outside of user's text input
+        input_rect_table[1][7].w = max(100, text_surface18.get_width() + 10)
+        input_rect_table[2][7].w = max(100, text_surface19.get_width() + 10)
+        input_rect_table[3][7].w = max(100, text_surface20.get_width() + 10)
+        input_rect_table[4][7].w = max(100, text_surface21.get_width() + 10)
+    elif cell_vvod == 8:
+        pygame.draw.rect(screen, color, input_rect_table[1][8])
+        text_surface22 = font.render(user_text_table[1][8], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[2][8])
+        text_surface23 = font.render(user_text_table[2][8], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[3][8])
+        text_surface24 = font.render(user_text_table[3][8], True, (0, 0, 0))
+        pygame.draw.rect(screen, color, input_rect_table[4][8])
+        text_surface25 = font.render(user_text_table[4][8], True, (0, 0, 0))
+        # render at position stated in arguments
+
+        screen.blit(text_surface22, (input_rect_table[1][8].x, input_rect_table[1][8].y + 20))
+        screen.blit(text_surface23, (input_rect_table[2][8].x, input_rect_table[2][8].y + 20))
+        screen.blit(text_surface24, (input_rect_table[3][8].x, input_rect_table[3][8].y + 20))
+        screen.blit(text_surface25, (input_rect_table[4][8].x, input_rect_table[4][8].y + 20))
+        # set width of textfield so that text cannot get
+        # outside of user's text input
+        input_rect_table[1][8].w = max(100, text_surface22.get_width() + 10)
+        input_rect_table[2][8].w = max(100, text_surface23.get_width() + 10)
+        input_rect_table[3][8].w = max(100, text_surface24.get_width() + 10)
+        input_rect_table[4][8].w = max(100, text_surface25.get_width() + 10)
+
+
 
     for x in range(0, W ):
         for y in range(0, H ):
-            if (pr[x][y] == 1):
+            if pr[x][y] == 1:
                 pygame.draw.rect(surface, pygame.Color('yellow'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
             if gen[x][y] != 0:
                 pygame.draw.rect(surface, pygame.Color('green'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-            if obj[x][y]!=0:
+            if obj[x][y] != 0:
                 if obj[x][y][1]==1:
                     pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE - 6, TILE - 6))
                     pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE + TILE*0.7+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE-6, TILE*0.25))
@@ -731,23 +987,3 @@ while True:
     pygame.display.flip()
     pygame.display.update()
     clock.tick(FPS)
-
-'''
-Меню+
-Можно поставить переменную+
-Добавлено:
-   Генератор
-   Переменная
-   Принтер
-   Дубликатор
-Надо добавить:
-   Преобразователь
-   Сравниватель
-   If
-   Стена
-Надо исправить:
-   переменные не видят спец. объекты перед собой
-   генератор может уничтожить переменную
-  можно поставить переменную на спец. объект
-  доделать меню, чтобы можно было поставить любой объект
-'''
