@@ -825,8 +825,8 @@ while True:
         text_surface2 = font.render(user_text_table[2][1], True, (0, 0, 0))
         # render at position stated in arguments
 
-        screen.blit(text_surface1, (input_rect_table[1][1].x, input_rect_table[1][1].y + 20))
-        screen.blit(text_surface2, (input_rect_table[2][1].x, input_rect_table[2][1].y + 20))
+        screen.blit(text_surface1, (input_rect_table[1][1].x, input_rect_table[1][1].y + 10))
+        screen.blit(text_surface2, (input_rect_table[2][1].x, input_rect_table[2][1].y + 10))
         # set width of textfield so that text cannot get
         # outside of user's text input
         input_rect_table[1][1].w = max(100, text_surface1.get_width() + 10)
@@ -834,19 +834,19 @@ while True:
     elif cell_vvod == 3:
         pygame.draw.rect(screen, color, input_rect_table[1][3])
         text_surface3 = font.render(user_text_table[1][3], True, (0, 0, 0))
-        screen.blit(text_surface3, (input_rect_table[1][3].x, input_rect_table[1][3].y + 20))
+        screen.blit(text_surface3, (input_rect_table[1][3].x, input_rect_table[1][3].y + 10))
         input_rect_table[1][3].w = max(100, text_surface3.get_width() + 10)
         pygame.draw.rect(screen, color, input_rect_table[2][3])
         text_surface4 = font.render(user_text_table[2][3], True, (0, 0, 0))
-        screen.blit(text_surface4, (input_rect_table[2][3].x, input_rect_table[2][3].y + 20))
+        screen.blit(text_surface4, (input_rect_table[2][3].x, input_rect_table[2][3].y + 10))
         input_rect_table[2][3].w = max(100, text_surface4.get_width() + 10)
         pygame.draw.rect(screen, color, input_rect_table[3][3])
         text_surface5 = font.render(user_text_table[3][3], True, (0, 0, 0))
-        screen.blit(text_surface5, (input_rect_table[3][3].x, input_rect_table[3][3].y + 20))
+        screen.blit(text_surface5, (input_rect_table[3][3].x, input_rect_table[3][3].y + 10))
         input_rect_table[3][3].w = max(100, text_surface5.get_width() + 10)
         pygame.draw.rect(screen, color, input_rect_table[4][3])
         text_surface6 = font.render(user_text_table[4][3], True, (0, 0, 0))
-        screen.blit(text_surface6, (input_rect_table[4][3].x, input_rect_table[4][3].y + 20))
+        screen.blit(text_surface6, (input_rect_table[4][3].x, input_rect_table[4][3].y + 10))
         input_rect_table[4][3].w = max(100, text_surface6.get_width() + 10)
     elif cell_vvod == 4:
         pygame.draw.rect(screen, color, input_rect_table[1][4])
@@ -857,9 +857,9 @@ while True:
         text_surface9 = font.render(user_text_table[3][4], True, (0, 0, 0))
         # render at position stated in arguments
 
-        screen.blit(text_surface7, (input_rect_table[1][4].x, input_rect_table[1][4].y + 20))
-        screen.blit(text_surface8, (input_rect_table[2][4].x, input_rect_table[2][4].y + 20))
-        screen.blit(text_surface9, (input_rect_table[3][4].x, input_rect_table[3][4].y + 20))
+        screen.blit(text_surface7, (input_rect_table[1][4].x, input_rect_table[1][4].y + 10))
+        screen.blit(text_surface8, (input_rect_table[2][4].x, input_rect_table[2][4].y + 10))
+        screen.blit(text_surface9, (input_rect_table[3][4].x, input_rect_table[3][4].y + 10))
         # set width of textfield so that text cannot get
         # outside of user's text input
         input_rect_table[1][4].w = max(100, text_surface7.get_width() + 10)
@@ -876,10 +876,10 @@ while True:
         text_surface17 = font.render(user_text_table[4][6], True, (0, 0, 0))
         # render at position stated in arguments
 
-        screen.blit(text_surface14, (input_rect_table[1][6].x, input_rect_table[1][6].y + 20))
-        screen.blit(text_surface15, (input_rect_table[2][6].x, input_rect_table[2][6].y + 20))
-        screen.blit(text_surface16, (input_rect_table[3][6].x, input_rect_table[3][6].y + 20))
-        screen.blit(text_surface17, (input_rect_table[4][6].x, input_rect_table[4][6].y + 20))
+        screen.blit(text_surface14, (input_rect_table[1][6].x, input_rect_table[1][6].y + 10))
+        screen.blit(text_surface15, (input_rect_table[2][6].x, input_rect_table[2][6].y + 10))
+        screen.blit(text_surface16, (input_rect_table[3][6].x, input_rect_table[3][6].y + 10))
+        screen.blit(text_surface17, (input_rect_table[4][6].x, input_rect_table[4][6].y + 10))
         # set width of textfield so that text cannot get
         # outside of user's text input
         input_rect_table[1][6].w = max(100, text_surface14.get_width() + 10)
@@ -897,10 +897,10 @@ while True:
         text_surface13 = font.render(user_text_table[4][5], True, (0, 0, 0))
         # render at position stated in arguments
 
-        screen.blit(text_surface10, (input_rect_table[1][5].x, input_rect_table[1][5].y + 20))
-        screen.blit(text_surface11, (input_rect_table[2][5].x, input_rect_table[2][5].y + 20))
-        screen.blit(text_surface12, (input_rect_table[3][5].x, input_rect_table[3][5].y + 20))
-        screen.blit(text_surface13, (input_rect_table[4][5].x, input_rect_table[4][5].y + 20))
+        screen.blit(text_surface10, (input_rect_table[1][5].x, input_rect_table[1][5].y + 10))
+        screen.blit(text_surface11, (input_rect_table[2][5].x, input_rect_table[2][5].y + 10))
+        screen.blit(text_surface12, (input_rect_table[3][5].x, input_rect_table[3][5].y + 10))
+        screen.blit(text_surface13, (input_rect_table[4][5].x, input_rect_table[4][5].y + 10))
         # set width of textfield so that text cannot get
         # outside of user's text input
         input_rect_table[1][5].w = max(100, text_surface10.get_width() + 10)
@@ -918,10 +918,10 @@ while True:
         text_surface21 = font.render(user_text_table[4][7], True, (0, 0, 0))
         # render at position stated in arguments
 
-        screen.blit(text_surface18, (input_rect_table[1][7].x, input_rect_table[1][7].y + 20))
-        screen.blit(text_surface19, (input_rect_table[2][7].x, input_rect_table[2][7].y + 20))
-        screen.blit(text_surface20, (input_rect_table[3][7].x, input_rect_table[3][7].y + 20))
-        screen.blit(text_surface21, (input_rect_table[4][7].x, input_rect_table[4][7].y + 20))
+        screen.blit(text_surface18, (input_rect_table[1][7].x, input_rect_table[1][7].y + 10))
+        screen.blit(text_surface19, (input_rect_table[2][7].x, input_rect_table[2][7].y + 10))
+        screen.blit(text_surface20, (input_rect_table[3][7].x, input_rect_table[3][7].y + 10))
+        screen.blit(text_surface21, (input_rect_table[4][7].x, input_rect_table[4][7].y + 10))
         # set width of textfield so that text cannot get
         # outside of user's text input
         input_rect_table[1][7].w = max(100, text_surface18.get_width() + 10)
@@ -939,10 +939,10 @@ while True:
         text_surface25 = font.render(user_text_table[4][8], True, (0, 0, 0))
         # render at position stated in arguments
 
-        screen.blit(text_surface22, (input_rect_table[1][8].x, input_rect_table[1][8].y + 20))
-        screen.blit(text_surface23, (input_rect_table[2][8].x, input_rect_table[2][8].y + 20))
-        screen.blit(text_surface24, (input_rect_table[3][8].x, input_rect_table[3][8].y + 20))
-        screen.blit(text_surface25, (input_rect_table[4][8].x, input_rect_table[4][8].y + 20))
+        screen.blit(text_surface22, (input_rect_table[1][8].x, input_rect_table[1][8].y + 10))
+        screen.blit(text_surface23, (input_rect_table[2][8].x, input_rect_table[2][8].y + 10))
+        screen.blit(text_surface24, (input_rect_table[3][8].x, input_rect_table[3][8].y + 10))
+        screen.blit(text_surface25, (input_rect_table[4][8].x, input_rect_table[4][8].y + 10))
         # set width of textfield so that text cannot get
         # outside of user's text input
         input_rect_table[1][8].w = max(100, text_surface22.get_width() + 10)
