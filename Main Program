@@ -1,14 +1,14 @@
 
 import pygame
 
-a=600
+a=900
 b=780
 RES = WIDTH, HEIGHT = a, b
 RES = WIDTH+300, max(HEIGHT+10,850)
 TILE = 30
 W, H = a // TILE, b // TILE
 FPS = 15
-waitFPS = 9
+waitFPS = 5
 Time_stop = 0
 running_man=1
 
@@ -77,12 +77,130 @@ pygame.init()
 surface = pygame.display.set_mode(RES)
 clock = pygame.time.Clock()
 
-obj[2][3]= [25,3]
+"""obj[2][3]= [25,3]
 obj[7][5]=[25,4]
 obj[2][4]=[25,2]
 Ifstructure[12][12]='rldu'
-fild[12][12]=8
+fild[12][12]=8"""
 
+#if номер 1 (big)
+"""xx=0
+yy=5
+Dudlicator[xx][yy]='rd'
+fild[xx][yy]=3
+Dudlicator[xx][yy+2]='r'
+fild[xx][yy+2]=3
+Dudlicator[xx+6][yy+2]='u'
+fild[xx+6][yy+2]=3
+Converter[xx+3][yy]='l>u=r'
+fild[xx+3][yy]=6
+Ifstructure[xx+6][yy]='dlur'
+fild[xx+6][yy]=8
+gen[xx+3][yy-3]=[10,1,3]
+gen[xx+6][yy-5]=[1,1,3]
+gen[xx+9][yy+2]=[1,3,3]
+Converter[xx+9][yy]='l-d=u'
+fild[xx+9][yy]=5
+Converter[xx+6][yy-3]='d+u=r'
+fild[xx+6][yy-3]=5
+Dudlicator[xx+9][yy-3]='r'
+fild[xx+9][yy-3]=3
+pr[xx+11][yy-3]=1
+
+Dudlicator[xx][yy-3]='d'
+fild[xx][yy-3]=3"""
+
+# if номер 2 (компактный)
+"""xx=0
+yy=8
+Dudlicator[xx][yy]='rd'
+fild[xx][yy]=3
+Dudlicator[xx][yy+2]='r'
+fild[xx][yy+2]=3
+Dudlicator[xx+2][yy+2]='r'
+fild[xx+2][yy+2]=3
+Dudlicator[xx+4][yy+2]='u'
+fild[xx+4][yy+2]=3
+Converter[xx+2][yy]='l>u=r'
+fild[xx+2][yy]=6
+Ifstructure[xx+4][yy]='dlur'
+fild[xx+4][yy]=8
+gen[xx+2][yy-2]=[10,1,3]
+gen[xx+4][yy-4]=[1,1,3]
+gen[xx+6][yy+2]=[1,3,3]
+Converter[xx+6][yy]='l-d=u'
+fild[xx+6][yy]=5
+Converter[xx+4][yy-2]='d+u=r'
+fild[xx+4][yy-2]=5
+Dudlicator[xx+6][yy-2]='r'
+fild[xx+6][yy-2]=3
+pr[xx+7][yy-2]=1
+
+Dudlicator[xx][yy-2]='d'
+fild[xx][yy-2]=3"""
+
+#While большой
+"""xx=5
+yy=5
+Dudlicator[xx][yy]='rd'
+fild[xx][yy]=3
+Dudlicator[xx][yy+2]='r'
+fild[xx][yy+2]=3
+Dudlicator[xx+6][yy+2]='u'
+fild[xx+6][yy+2]=3
+Converter[xx+3][yy]='l>u=r'
+fild[xx+3][yy]=6
+Ifstructure[xx+6][yy]='dlur'
+fild[xx+6][yy]=8
+gen[xx+3][yy-3]=[10,1,3]
+gen[xx+11][yy]=[1,4,3]
+Converter[xx+9][yy]='l-r=d'
+fild[xx+9][yy]=5
+
+Dudlicator[xx+9][yy+4]='l'
+fild[xx+9][yy+4]=3
+Dudlicator[xx-2][yy+4]='u'
+fild[xx-2][yy+4]=3
+Dudlicator[xx-2][yy]='r'
+fild[xx-2][yy]=3"""
+#While компактная и ускоренная версия
+"""xx=5
+yy=5
+Dudlicator[xx][yy]='rd'
+fild[xx][yy]=3
+Dudlicator[xx][yy+2]='r'
+fild[xx][yy+2]=3
+Dudlicator[xx+4][yy+2]='u'
+fild[xx+4][yy+2]=3
+Converter[xx+2][yy]='l>u=r'
+fild[xx+2][yy]=6
+Ifstructure[xx+4][yy]='dlur'
+fild[xx+4][yy]=8
+gen[xx+2][yy-2]=[10,1,3]
+gen[xx+8][yy]=[1,4,3]
+Converter[xx+6][yy]='l-r=d'
+fild[xx+6][yy]=5
+Dudlicator[xx+6][yy+4]='l'
+fild[xx+6][yy+4]=3
+Dudlicator[xx-2][yy+4]='u'
+fild[xx-2][yy+4]=3
+Dudlicator[xx-2][yy]='r'
+fild[xx-2][yy]=3
+
+Dudlicator[xx+2][yy+2]='r'
+fild[xx+2][yy+2]=3
+Dudlicator[xx-2][yy+2]='u'
+fild[xx-2][yy+2]=3
+Dudlicator[xx+6][yy+2]='d'
+fild[xx+6][yy+2]=3
+Dudlicator[xx+2][yy+2]='r'
+fild[xx+2][yy+2]=3
+Dudlicator[xx+4][yy+4]='l'
+fild[xx+4][yy+4]=3
+Dudlicator[xx+2][yy+4]='l'
+fild[xx+2][yy+4]=3
+Dudlicator[xx][yy+4]='l'
+fild[xx][yy+4]=3"""
 def binom (bio):
     return ((bio+1)%2)
 def run (past:list,c,d,e:int):
@@ -157,7 +275,7 @@ def dublicate(past:list,c,d,l,m:int):
             y=m
             fx = -2  # иммено его мы и будем закидывать
             fy = -2
-            print (type(Dudlicator[x][y]))
+            #print (type(Dudlicator[x][y]))
             if (Dudlicator[x][y] != '') and (len(Dudlicator[x][y])<4):
                 if (Dudlicator[x][y].find('u')==-1) and (past[x][(y-1)%d]!=0):
                     if past[x][(y-1)%d][1] == 1:
@@ -294,8 +412,8 @@ def Rediract (past:list,c,d,x,y:int):
             fy1= Who(past, x, y, resTrue,1)[1]
             fx0 = Who(past, x, y, resFalse, 1)[0]
             fy0 = Who(past, x, y, resFalse, 1)[1]
-            print (e)
-            print(fx1,' ',fy1,' ',fx0,' ',fy0,' ',px1,' ',py1,' ',px2,' ',py2)
+            #print (e)
+            #print(fx1,' ',fy1,' ',fx0,' ',fy0,' ',px1,' ',py1,' ',px2,' ',py2)
             if (past[px1][py1]!=0) and (past[px2][py2]!=0):
                 print(past[px2][py2][0])
                 if past[px2][py2][0] == 1:
@@ -356,6 +474,27 @@ def delite(i,y):
     fild[i][y] = 0
     return 0
 
+
+def show (x,y):
+    if gen[x][y]!=0:
+        print(gen[x][y])
+    if obj[x][y]!=0:
+        print (obj[x][y])
+    if pr[x][y]!=0:
+        print ('printer')
+    if fild[x][y]!=0:
+        if fild[x][y] == 20:
+            print ('wall')
+        elif fild[x][y] == 3:
+            print (Dudlicator[x][y])
+        elif fild[x][y] == 5 or fild[x][y] == 6 or fild[x][y] == 7:
+            print(Converter[x][y])
+        elif fild[x][y] == 8:
+            print(Ifstructure[x][y])
+            print(x,' ',y)
+    return 0
+
+
 screen = pygame.display.set_mode(RES)
 menu_color = (200, 200, 200)
 cell_color = (100, 100, 100)
@@ -376,13 +515,19 @@ def draw_menu(t,v):
         global cell_rect7
         global cell_rect8
         global cell_rect9
+        global cell_rectX
         # Draw the menu background
         menu_rect = pygame.Rect(a, 0, 300, 900)
         pygame.draw.rect(screen, menu_color, menu_rect)
         glass_color = (28, 232, 239)
         # Draw the cells in the upper part of the menu
+
         cell_rect0 = pygame.Rect(a + 210, 710, 60, 80)
         pygame.draw.rect(screen, cell_color, cell_rect0)
+
+        cell_rectX = pygame.Rect(a + 210, 50, 60, 80)
+        pygame.draw.rect(screen, 'white', cell_rectX)
+
         pygame.draw.polygon(screen, glass_color,[[a + 240, 648], [a + 204, 600],[a + 276,600]])
         pygame.draw.polygon(screen, glass_color, [[a + 240, 632], [a + 204, 675], [a + 276, 675]])
         pygame.draw.polygon(screen, 'yellow', [[a+240,640],
@@ -503,10 +648,13 @@ def handle_events():
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
-            print(mouse_pos[0])
+            #print(mouse_pos[0])
             if cell_rect0.collidepoint(mouse_pos):
                 print("Cell clicked! " + str(0))
                 cell_vvod = 0
+            if cell_rectX.collidepoint(mouse_pos):
+                print("Cell clicked! " + str(-1))
+                cell_vvod = -1
             if page == 0:
                 if cell_rect1.collidepoint(mouse_pos):
                     print("Cell clicked! "+str(1))
@@ -555,17 +703,18 @@ def handle_events():
                         Converter[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = (user_text_table[1][iii][0]+user_text_table[4][iii][0]+user_text_table[2][iii][0]+'='+user_text_table[3][iii][0]).lower()
                         print(Converter[mouse_pos[0] // TILE][mouse_pos[1] // TILE])
                         fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = iii
-                if cell_vvod == 8:
+                if cell_vvod == 8 and user_text_table[1][8]!=''and user_text_table[2][8]!=''and user_text_table[3][8]!=''and user_text_table[4][8]!='':
                     iii=8
                     Ifstructure[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = (user_text_table[1][iii][0] + user_text_table[4][iii][0] + user_text_table[2][iii][0] + user_text_table[3][iii][0]).lower()
                     print(Ifstructure[mouse_pos[0] // TILE][mouse_pos[1] // TILE])
                     fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = iii
                 if (cell_vvod ==9):
                     fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = 20
-            else:
-                if cell_vvod == 0 and (mouse_pos[0]<a) and (mouse_pos[1]<b):
-                    delite(mouse_pos[0] // TILE,mouse_pos[1] // TILE)
-                    
+            if cell_vvod == 0 and (mouse_pos[0]< a) and (mouse_pos[1]<b):
+                delite(mouse_pos[0] // TILE,mouse_pos[1] // TILE)
+                print (obj[mouse_pos[0] // TILE][mouse_pos[1] // TILE])
+            if cell_vvod == -1 and (mouse_pos[0]< a) and (mouse_pos[1]<b):
+                show(mouse_pos[0]// TILE,mouse_pos[1]// TILE)
             for i in range(1,5):
                 if input_rect_table[i][3].collidepoint(event.pos) or input_rect_table[i][5].collidepoint(event.pos) or input_rect_table[i][6].collidepoint(event.pos) or input_rect_table[i][7].collidepoint(event.pos) or input_rect_table[i][8].collidepoint(event.pos):
                     active = i
@@ -978,8 +1127,99 @@ while True:
 
     [pygame.draw.line(surface, pygame.Color('darkslategray'), (x, 0), (x, HEIGHT)) for x in range(0, WIDTH, TILE)]
     [pygame.draw.line(surface, pygame.Color('darkslategray'), (0, y), (WIDTH, y)) for y in range(0, HEIGHT, TILE)]
+
+
+
+    for x in range(0, W ):
+        for y in range(0, H ):
+            if pr[x][y] == 1:
+                pygame.draw.rect(surface, pygame.Color('yellow'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+            if gen[x][y] != 0:
+                pygame.draw.rect(surface, pygame.Color('green'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+                if running_man == 0:
+                    if gen[x][y][1]==1:
+                        pygame.draw.polygon(screen, (62,208,20),
+                                            [[x * TILE + 3, y * TILE + 3],
+                                             [x * TILE + TILE-2, y * TILE + 3],
+                                             [x * TILE + (TILE+1)/2, y * TILE + TILE-2]])
+                    elif gen[x][y][1]==2:
+                        pygame.draw.polygon(screen, (62,208,20),
+                                            [[x * TILE + 3, y * TILE + 3],
+                                             [x * TILE + TILE - 2, y * TILE + (TILE+1)/2],
+                                             [x * TILE + 3, y * TILE + TILE - 2]])
+                    elif gen[x][y][1]==3:
+                        pygame.draw.polygon(screen, (62,208,20),
+                                            [[x * TILE + (TILE+1)/2, y * TILE + 3],
+                                             [x * TILE + TILE - 2, y * TILE + TILE - 2],
+                                             [x * TILE + 3, y * TILE + TILE - 2]])
+                    elif gen[x][y][1]==4:
+                        pygame.draw.polygon(screen, (62,208,20),
+                                            [[x * TILE + 3, y * TILE + (TILE+1)/2],
+                                             [x * TILE + TILE - 2, y * TILE + 3],
+                                             [x * TILE + TILE - 2, y * TILE + TILE - 2]])
+            if obj[x][y] != 0:
+                if obj[x][y][1]==1:
+                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE - 6, TILE - 6))
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE + TILE*0.7+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE-6, TILE*0.25))
+                if obj[x][y][1]==2:
+                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5, TILE - 6, TILE - 6))
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.7+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE+ 3.5 , TILE*0.25, TILE-6))
+                if obj[x][y][1]==3:
+                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE - 6, TILE - 6))
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE +TILE*0.1-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE-6, TILE*0.25))
+                if obj[x][y][1]==4:
+                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5, TILE - 6, TILE - 6))
+                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.1-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5 , TILE*0.25, TILE-6))
+                if pr[x][y]!=0:
+                    print (obj[x][y][0])
+
+            if Dudlicator[x][y] !='':
+                pygame.draw.rect(surface, pygame.Color('blue'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+                if pushed[x][y] != 0:
+                    pygame.draw.rect(surface, pygame.Color('darkblue'),
+                                     (x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
+                if running_man == 0:
+                    if Dudlicator[x][y].find('d') != -1:
+                        pygame.draw.polygon(screen, (104, 83, 253),
+                                            [[x * TILE + 3, y * TILE + 0.7 * TILE],
+                                             [x * TILE + TILE - 2, y * TILE + 0.7 * TILE],
+                                             [x * TILE + (TILE + 1) / 2, y * TILE + TILE - 2]])
+                    if Dudlicator[x][y].find('r') != -1:
+                        pygame.draw.polygon(screen, (104, 83, 253),
+                                            [[x * TILE + 0.7 * TILE, y * TILE + 3],
+                                             [x * TILE + TILE - 2, y * TILE + (TILE + 1) / 2],
+                                             [x * TILE + 0.7 * TILE, y * TILE + TILE - 2]])
+                    if Dudlicator[x][y].find('u') != -1:
+                        pygame.draw.polygon(screen, (104, 83, 253),
+                                            [[x * TILE + (TILE + 1) / 2, y * TILE + 3],
+                                             [x * TILE + TILE - 2, y * TILE + 0.3 * TILE],
+                                             [x * TILE + 3, y * TILE + 0.3 * TILE]])
+                    if Dudlicator[x][y].find('l') != -1:
+                        pygame.draw.polygon(screen, (104, 83, 253),
+                                            [[x * TILE + 3, y * TILE + (TILE + 1) / 2],
+                                             [x * TILE + 0.3 * TILE, y * TILE + 3],
+                                             [x * TILE + 0.3 * TILE, y * TILE + TILE - 2]])
+
+            if fild[x][y]==5:
+                pygame.draw.rect(surface, pygame.Color('orange'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+                if pushed[x][y]!=0:
+                    pygame.draw.rect(surface, pygame.Color('darkorange'), (x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
+            if fild[x][y]==6:
+                pygame.draw.rect(surface, pygame.Color('violet'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+                if pushed[x][y]!=0:
+                    pygame.draw.rect(surface, pygame.Color('darkviolet'), (x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
+            if fild[x][y]==7:
+                pygame.draw.rect(surface, pygame.Color('pink'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+                if pushed[x][y]!=0:
+                    pygame.draw.rect(surface, pygame.Color(255,0,128), (x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
+            if fild[x][y] == 8:
+                pygame.draw.rect(surface, pygame.Color('brown'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
+                if pushed[x][y] != 0:
+                    pygame.draw.rect(surface, pygame.Color(255, 0, 128),(x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
+            if fild[x][y] == 20:
+                pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
     pygame.draw.rect(screen, pygame.Color('darkslategray'), (0, b, a + 300, 1000))
-    draw_menu(t,waitFPS)
+    draw_menu(t, waitFPS)
     # Handle events
     if cell_vvod == 1:
         pygame.draw.rect(screen, color, input_rect_table[1][1])
@@ -1113,52 +1353,6 @@ while True:
         input_rect_table[3][8].w = max(100, text_surface24.get_width() + 10)
         input_rect_table[4][8].w = max(100, text_surface25.get_width() + 10)
 
-
-
-    for x in range(0, W ):
-        for y in range(0, H ):
-            if pr[x][y] == 1:
-                pygame.draw.rect(surface, pygame.Color('yellow'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-            if gen[x][y] != 0:
-                pygame.draw.rect(surface, pygame.Color('green'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-            if obj[x][y] != 0:
-                if obj[x][y][1]==1:
-                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE - 6, TILE - 6))
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE + TILE*0.7+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE-6, TILE*0.25))
-                if obj[x][y][1]==2:
-                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5, TILE - 6, TILE - 6))
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.7+(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE+ 3.5 , TILE*0.25, TILE-6))
-                if obj[x][y][1]==3:
-                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5, y * TILE + 3.5-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE - 6, TILE - 6))
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 3.5, y * TILE +TILE*0.1-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, TILE-6, TILE*0.25))
-                if obj[x][y][1]==4:
-                    pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5, TILE - 6, TILE - 6))
-                    pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.1-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5 , TILE*0.25, TILE-6))
-                if pr[x][y]!=0:
-                    print (obj[x][y][0])
-
-            if Dudlicator[x][y] !='':
-                pygame.draw.rect(surface, pygame.Color('blue'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-                if pushed[x][y]!=0:
-                    pygame.draw.rect(surface, pygame.Color('darkblue'), (x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
-            if fild[x][y]==5:
-                pygame.draw.rect(surface, pygame.Color('orange'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-                if pushed[x][y]!=0:
-                    pygame.draw.rect(surface, pygame.Color('darkorange'), (x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
-            if fild[x][y]==6:
-                pygame.draw.rect(surface, pygame.Color('violet'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-                if pushed[x][y]!=0:
-                    pygame.draw.rect(surface, pygame.Color('darkviolet'), (x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
-            if fild[x][y]==7:
-                pygame.draw.rect(surface, pygame.Color('pink'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-                if pushed[x][y]!=0:
-                    pygame.draw.rect(surface, pygame.Color(255,0,128), (x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
-            if fild[x][y] == 8:
-                pygame.draw.rect(surface, pygame.Color('brown'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
-                if pushed[x][y] != 0:
-                    pygame.draw.rect(surface, pygame.Color(255, 0, 128),(x * TILE + 3, y * TILE + 3, TILE - 5, TILE - 5))
-            if fild[x][y] == 20:
-                pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + 2, y * TILE + 2, TILE - 2, TILE - 2))
     if Time_stop==1:
         if t % waitFPS==0:
             pushed = [0] * W
