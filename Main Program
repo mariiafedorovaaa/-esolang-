@@ -111,34 +111,31 @@ Dudlicator[xx][yy-3]='d'
 fild[xx][yy-3]=3"""
 
 # if номер 2 (компактный)
-"""xx=0
-yy=8
-Dudlicator[xx][yy]='rd'
-fild[xx][yy]=3
-Dudlicator[xx][yy+2]='r'
-fild[xx][yy+2]=3
-Dudlicator[xx+2][yy+2]='r'
-fild[xx+2][yy+2]=3
-Dudlicator[xx+4][yy+2]='u'
-fild[xx+4][yy+2]=3
-Converter[xx+2][yy]='l>u=r'
-fild[xx+2][yy]=6
-Ifstructure[xx+4][yy]='dlur'
-fild[xx+4][yy]=8
-gen[xx+2][yy-2]=[10,1,3]
-gen[xx+4][yy-4]=[1,1,3]
-gen[xx+6][yy+2]=[1,3,3]
-Converter[xx+6][yy]='l-d=u'
-fild[xx+6][yy]=5
-Converter[xx+4][yy-2]='d+u=r'
-fild[xx+4][yy-2]=5
-Dudlicator[xx+6][yy-2]='r'
-fild[xx+6][yy-2]=3
-pr[xx+7][yy-2]=1
-
-Dudlicator[xx][yy-2]='d'
-fild[xx][yy-2]=3"""
-
+def ifstructure(xx,yy):
+    yy=yy+4
+    Dudlicator[xx][yy]='rd'
+    fild[xx][yy]=3
+    Dudlicator[xx][yy+2]='r'
+    fild[xx][yy+2]=3
+    Dudlicator[xx+2][yy+2]='r'
+    fild[xx+2][yy+2]=3
+    Dudlicator[xx+4][yy+2]='u'
+    fild[xx+4][yy+2]=3
+    Converter[xx+2][yy]='l>u=r'
+    fild[xx+2][yy]=6
+    Ifstructure[xx+4][yy]='dlur'
+    fild[xx+4][yy]=8
+    gen[xx+2][yy-2]=[10,1,3]
+    gen[xx+4][yy-4]=[1,1,3]
+    gen[xx+6][yy+2]=[1,3,3]
+    Converter[xx+6][yy]='l-d=u'
+    fild[xx+6][yy]=5
+    Converter[xx+4][yy-2]='d+u=r'
+    fild[xx+4][yy-2]=5
+    Dudlicator[xx+6][yy-2]='r'
+    fild[xx+6][yy-2]=3
+    pr[xx+7][yy-2]=1
+ifstructure(3,5)
 #While большой
 """xx=5
 yy=5
@@ -164,43 +161,100 @@ fild[xx-2][yy+4]=3
 Dudlicator[xx-2][yy]='r'
 fild[xx-2][yy]=3"""
 #While компактная и ускоренная версия
-"""xx=5
-yy=5
-Dudlicator[xx][yy]='rd'
-fild[xx][yy]=3
-Dudlicator[xx][yy+2]='r'
-fild[xx][yy+2]=3
-Dudlicator[xx+4][yy+2]='u'
-fild[xx+4][yy+2]=3
-Converter[xx+2][yy]='l>u=r'
-fild[xx+2][yy]=6
-Ifstructure[xx+4][yy]='dlur'
-fild[xx+4][yy]=8
-gen[xx+2][yy-2]=[10,1,3]
-gen[xx+8][yy]=[1,4,3]
-Converter[xx+6][yy]='l-r=d'
-fild[xx+6][yy]=5
-Dudlicator[xx+6][yy+4]='l'
-fild[xx+6][yy+4]=3
-Dudlicator[xx-2][yy+4]='u'
-fild[xx-2][yy+4]=3
-Dudlicator[xx-2][yy]='r'
-fild[xx-2][yy]=3
+def whilestructure (xx,yy):
+    Dudlicator[xx][yy]='rd'
+    fild[xx][yy]=3
+    Dudlicator[xx][yy+2]='r'
+    fild[xx][yy+2]=3
+    Dudlicator[xx+4][yy+2]='u'
+    fild[xx+4][yy+2]=3
+    Converter[xx+2][yy]='l>u=r'
+    fild[xx+2][yy]=6
+    Ifstructure[xx+4][yy]='dlur'
+    fild[xx+4][yy]=8
+    gen[xx+2][yy-2]=[10,1,3]
+    gen[xx+8][yy]=[1,4,3]
+    Converter[xx+6][yy]='l-r=d'
+    fild[xx+6][yy]=5
+    Dudlicator[xx+6][yy+4]='l'
+    fild[xx+6][yy+4]=3
+    Dudlicator[xx-2][yy+4]='u'
+    fild[xx-2][yy+4]=3
+    Dudlicator[xx-2][yy]='r'
+    fild[xx-2][yy]=3
 
-Dudlicator[xx+2][yy+2]='r'
-fild[xx+2][yy+2]=3
-Dudlicator[xx-2][yy+2]='u'
-fild[xx-2][yy+2]=3
-Dudlicator[xx+6][yy+2]='d'
-fild[xx+6][yy+2]=3
-Dudlicator[xx+2][yy+2]='r'
-fild[xx+2][yy+2]=3
-Dudlicator[xx+4][yy+4]='l'
-fild[xx+4][yy+4]=3
-Dudlicator[xx+2][yy+4]='l'
-fild[xx+2][yy+4]=3
-Dudlicator[xx][yy+4]='l'
-fild[xx][yy+4]=3"""
+    Dudlicator[xx+2][yy+2]='r'
+    fild[xx+2][yy+2]=3
+    Dudlicator[xx-2][yy+2]='u'
+    fild[xx-2][yy+2]=3
+    Dudlicator[xx+6][yy+2]='d'
+    fild[xx+6][yy+2]=3
+    Dudlicator[xx+2][yy+2]='r'
+    fild[xx+2][yy+2]=3
+    Dudlicator[xx+4][yy+4]='l'
+    fild[xx+4][yy+4]=3
+    Dudlicator[xx+2][yy+4]='l'
+    fild[xx+2][yy+4]=3
+    Dudlicator[xx][yy+4]='l'
+    fild[xx][yy+4]=3
+whilestructure (13,13)
+# ячейка массива
+def massiv (xx,yy,nn,qq):
+    obj[xx+3][yy+8]=[qq,2]
+    fild[xx+6][yy+8]=20
+    gen[xx+2][yy+4]=[nn,3,3]
+    gen[xx+4][yy+16]=[nn,3,3]
+
+    Converter[xx+2][yy+2]='l=d=r'
+    fild[xx+2][yy+2]=6
+    Converter[xx+4][yy+4]='u=u=d'
+    fild[xx+4][yy+4]=6
+    Converter[xx+4][yy+14]='r=d=l'
+    fild[xx+4][yy+14]=6
+    Converter[xx][yy+9]='d>d=u'
+    fild[xx][yy+9]=6
+    Ifstructure[xx+4][yy+2]='ulrd'
+    fild[xx+4][yy+2]=8
+    Ifstructure[xx+4][yy+8]='lurd'
+    fild[xx+4][yy+8]=8
+    Ifstructure[xx][yy+14]='drlu'
+    fild[xx][yy+14]=8
+    Ifstructure[xx+2][yy+12]='rdlu'
+    fild[xx+2][yy+12]=8
+
+    Dudlicator[xx][yy+2]='ru'
+    fild[xx][yy+2]=3
+    Dudlicator[xx][yy]='r'
+    fild[xx][yy]=3
+    Dudlicator[xx+4][yy]='d'
+    fild[xx+4][yy]=3
+    Dudlicator[xx+4][yy+6]='d'
+    fild[xx+4][yy+6]=3
+    Dudlicator[xx][yy+6]='r'
+    fild[xx][yy+6]=3
+    Dudlicator[xx+2][yy+8]='r'
+    fild[xx+2][yy+8]=3
+    Dudlicator[xx+2][yy+10]='u'
+    fild[xx+2][yy+10]=3
+    Dudlicator[xx+4][yy+10]='lr'
+    fild[xx+4][yy+10]=3
+    Dudlicator[xx][yy+17]='u'
+    fild[xx][yy+17]=3
+    Dudlicator[xx+2][yy+14]='ul'
+    fild[xx+2][yy+14]=3
+    Dudlicator[xx+6][yy+17]='l'
+    fild[xx+6][yy+17]=3
+    Dudlicator[xx+6][yy+14]='ld'
+    fild[xx+6][yy+14]=3
+    Dudlicator[xx + 3][yy + 17] = 'l'
+    fild[xx + 3][yy + 17] = 3
+    Dudlicator[xx + 7][yy + 13] = 'r'
+    fild[xx + 7][yy + 13] = 3
+    Dudlicator[xx + 7][yy + 10] = 'd'
+    fild[xx + 7][yy + 10] = 3
+"""massiv(3,3,2,0)
+massiv(11,3,3,0)
+massiv(19,3,4,0)"""
 def binom (bio):
     return ((bio+1)%2)
 def run (past:list,c,d,e:int):
@@ -474,7 +528,6 @@ def delite(i,y):
     fild[i][y] = 0
     return 0
 
-
 def show (x,y):
     if gen[x][y]!=0:
         print(gen[x][y])
@@ -491,7 +544,6 @@ def show (x,y):
             print(Converter[x][y])
         elif fild[x][y] == 8:
             print(Ifstructure[x][y])
-            print(x,' ',y)
     return 0
 
 
@@ -690,22 +742,19 @@ def handle_events():
                 if (cell_vvod == 2):
                     pr[mouse_pos[0]//TILE][mouse_pos[1]//TILE]=1
                 if (cell_vvod==3):
-                    print(user_text_table[4][3])
                     Dudlicator[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = ''+'r'*user_text_table[1][3]+'u'*user_text_table[2][3]+'d'*user_text_table[3][3]+'l'*user_text_table[4][3]
                     if len(Dudlicator[mouse_pos[0] // TILE][mouse_pos[1] // TILE])==4:
                         Dudlicator[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=''
                     fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=3
-                    print(Dudlicator[mouse_pos[0] // TILE][mouse_pos[1] // TILE]+'  0000000000000000000')
                 if (cell_vvod==4) and (user_text_table[1][4]!='') and (user_text_table[3][4]!='')and(user_text_table[2][4]!='') :
                     gen[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = [int(user_text_table[2][4]),'0DRUL'.find(user_text_table[1][4][0]),int(user_text_table[3][4])]
                 for iii in range(5,8):
                     if (cell_vvod == iii) and (user_text_table[1][iii] != '') and (user_text_table[3][iii] != '') and (user_text_table[2][iii] != '')and (user_text_table[4][iii] != ''):
                         Converter[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = (user_text_table[1][iii][0]+user_text_table[4][iii][0]+user_text_table[2][iii][0]+'='+user_text_table[3][iii][0]).lower()
-                        print(Converter[mouse_pos[0] // TILE][mouse_pos[1] // TILE])
                         fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = iii
                 if cell_vvod == 8 and user_text_table[1][8]!=''and user_text_table[2][8]!=''and user_text_table[3][8]!=''and user_text_table[4][8]!='':
                     iii=8
-                    Ifstructure[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = (user_text_table[1][iii][0] + user_text_table[4][iii][0] + user_text_table[2][iii][0] + user_text_table[3][iii][0]).lower()
+                    Ifstructure[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = (user_text_table[1][iii][0] + user_text_table[2][iii][0] + user_text_table[3][iii][0] + user_text_table[4][iii][0]).lower()
                     print(Ifstructure[mouse_pos[0] // TILE][mouse_pos[1] // TILE])
                     fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = iii
                 if (cell_vvod ==9):
@@ -773,8 +822,6 @@ def handle_events():
             elif active == 1 and cell_vvod == 3:
                 if event.key == pygame.K_RETURN:
                     user_text_table[1][3] = ''
-                elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[1][3] = user_text_table[1][3][:-1]
                 elif event.key == pygame.K_1:
                     user_text_table[1][3] = 1
                     user_text_direction[0] ='Right'
@@ -786,8 +833,6 @@ def handle_events():
             elif active == 2 and cell_vvod == 3:
                 if event.key == pygame.K_RETURN:
                     user_text_table[2][3] = ''
-                elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[2][3] = user_text_table[2][3][:-1]
                 elif event.key == pygame.K_1:
                     user_text_table[2][3] = 1
                     user_text_direction[1] ='Up'
@@ -799,8 +844,6 @@ def handle_events():
             elif active == 3 and cell_vvod == 3:
                 if event.key == pygame.K_RETURN:
                     user_text_table[3][3] = ''
-                elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[3][3] = user_text_table[3][3][:-1]
                 elif event.key == pygame.K_1:
                     user_text_table[3][3] = 1
                     user_text_direction[2] ='Down'
@@ -812,8 +855,6 @@ def handle_events():
             elif active == 4 and cell_vvod == 3:
                 if event.key == pygame.K_RETURN:
                     user_text_table[4][3] = ''
-                elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[4][3] = user_text_table[4][3][:-1]
                 elif event.key == pygame.K_1:
                     user_text_table[4][3] = 1
                     user_text_direction[2] ='Left'
@@ -826,7 +867,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[1][4] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[1][4] = user_text_table[1][4][:-1]
+                    user_text_table[1][4] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[1][4] = ''
                     user_text_table[1][4] += 'Right'
@@ -869,7 +910,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[1][5] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[1][5] = user_text_table[1][5][:-1]
+                    user_text_table[1][5] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[1][5] = ''
                     user_text_table[1][5] += 'Right'
@@ -886,7 +927,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[2][5] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[2][5] = user_text_table[2][5][:-1]
+                    user_text_table[2][5] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[2][5] = ''
                     user_text_table[2][5] += 'Right'
@@ -903,7 +944,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[3][5] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[3][5] = user_text_table[3][5][:-1]
+                    user_text_table[3][5] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[3][5] = ''
                     user_text_table[3][5] += 'Right'
@@ -928,7 +969,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[1][6] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[1][6] = user_text_table[1][6][:-1]
+                    user_text_table[1][6] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[1][6] = ''
                     user_text_table[1][6] += 'Right'
@@ -945,7 +986,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[2][6] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[2][6] = user_text_table[2][6][:-1]
+                    user_text_table[2][6] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[2][6] = ''
                     user_text_table[2][6] += 'Right'
@@ -962,7 +1003,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[3][6] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[3][6] = user_text_table[3][6][:-1]
+                    user_text_table[3][6] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[3][6] = ''
                     user_text_table[3][6] += 'Right'
@@ -987,7 +1028,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[1][7] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[1][7] = user_text_table[1][7][:-1]
+                    user_text_table[1][7] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[1][7] = ''
                     user_text_table[1][7] += 'Right'
@@ -1004,7 +1045,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[2][7] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[2][7] = user_text_table[2][7][:-1]
+                    user_text_table[2][7] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[2][7] = ''
                     user_text_table[2][7] += 'Right'
@@ -1021,7 +1062,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[3][7] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[3][7] = user_text_table[3][7][:-1]
+                    user_text_table[3][7] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[3][7] = ''
                     user_text_table[3][7] += 'Right'
@@ -1046,7 +1087,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[1][8] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[1][8] = user_text_table[1][8][:-1]
+                    user_text_table[1][8] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[1][8] = ''
                     user_text_table[1][8] += 'Right'
@@ -1063,7 +1104,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[2][8] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[2][8] = user_text_table[1][8][:-1]
+                    user_text_table[2][8] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[2][8] = ''
                     user_text_table[2][8] += 'Right'
@@ -1080,7 +1121,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[3][8] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[3][8] = user_text_table[3][7][:-1]
+                    user_text_table[3][8] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[3][8] = ''
                     user_text_table[3][8] += 'Right'
@@ -1097,7 +1138,7 @@ def handle_events():
                 if event.key == pygame.K_RETURN:
                     user_text_table[4][8] = ''
                 elif event.key == pygame.K_BACKSPACE:
-                    user_text_table[4][8] = user_text_table[4][8][:-1]
+                    user_text_table[4][8] = ''
                 elif event.key == pygame.K_RIGHT:
                     user_text_table[4][8] = ''
                     user_text_table[4][8] += 'Right'
@@ -1170,7 +1211,7 @@ while True:
                 if obj[x][y][1]==4:
                     pygame.draw.rect(surface, pygame.Color('red'), (x * TILE + 3.5-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5, TILE - 6, TILE - 6))
                     pygame.draw.rect(surface, pygame.Color('black'), (x * TILE + TILE*0.1-(((t-1)%waitFPS)*TILE*running[x][y])/waitFPS, y * TILE + 3.5 , TILE*0.25, TILE-6))
-                if pr[x][y]!=0:
+                if pr[x][y]!=0 and t%waitFPS == 0 and Time_stop == 1:
                     print (obj[x][y][0])
 
             if Dudlicator[x][y] !='':
