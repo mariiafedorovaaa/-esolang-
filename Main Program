@@ -135,7 +135,7 @@ def ifstructure(xx,yy):
     Dudlicator[xx+6][yy-2]='r'
     fild[xx+6][yy-2]=3
     pr[xx+7][yy-2]=1
-ifstructure(3,5)
+"""ifstructure(3,5)"""
 #While большой
 """xx=5
 yy=5
@@ -197,7 +197,7 @@ def whilestructure (xx,yy):
     fild[xx+2][yy+4]=3
     Dudlicator[xx][yy+4]='l'
     fild[xx][yy+4]=3
-whilestructure (13,13)
+"""whilestructure (13,13)"""
 # ячейка массива
 def massiv (xx,yy,nn,qq):
     obj[xx+3][yy+8]=[qq,2]
@@ -556,6 +556,9 @@ color = color_passive
 active = 0
 cell_vvod = 0
 page=0
+m=0
+iiii=0
+w=0
 def draw_menu(t,v):
         global cell_rect0
         global cell_rect1
@@ -693,6 +696,9 @@ def handle_events():
     global cell_vvod
     global page
     global active
+    global m
+    global iiii
+    global w
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -736,7 +742,7 @@ def handle_events():
                 if cell_rect9.collidepoint(mouse_pos):
                     print("Cell clicked! " + str(9))
                     cell_vvod = 9
-            if (mouse_pos[0]<a) and (mouse_pos[1]<b)  and (fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE] == 0):
+            if (mouse_pos[0]<a) and (mouse_pos[1]<b)  and (fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE] == 0) and m==0 and iiii==0 and w==0:
                 if (cell_vvod==1) and (user_text_table[1][1]!='') and (user_text_table[2][1]!=''):
                     obj[mouse_pos[0] // TILE][mouse_pos[1] // TILE]=[int(user_text_table[2][1]),'0DRUL'.find(user_text_table[1][1][0])]
                 if (cell_vvod == 2):
@@ -759,11 +765,17 @@ def handle_events():
                     fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = iii
                 if (cell_vvod ==9):
                     fild[mouse_pos[0] // TILE][mouse_pos[1] // TILE] = 20
-            if cell_vvod == 0 and (mouse_pos[0]< a) and (mouse_pos[1]<b):
+            if cell_vvod == 0 and (mouse_pos[0]< a) and (mouse_pos[1]<b) and m==0 and iiii==0 and w==0:
                 delite(mouse_pos[0] // TILE,mouse_pos[1] // TILE)
                 print (obj[mouse_pos[0] // TILE][mouse_pos[1] // TILE])
-            if cell_vvod == -1 and (mouse_pos[0]< a) and (mouse_pos[1]<b):
+            if cell_vvod == -1 and (mouse_pos[0]< a) and (mouse_pos[1]<b) and m==0 and iiii==0 and w==0:
                 show(mouse_pos[0]// TILE,mouse_pos[1]// TILE)
+            if (mouse_pos[0]< a) and (mouse_pos[1]<b) and m>0:
+                massiv(mouse_pos[0]// TILE,mouse_pos[1]// TILE,m,0)
+            if (mouse_pos[0]< a) and (mouse_pos[1]<b) and iiii>0:
+                ifstructure(mouse_pos[0]// TILE,mouse_pos[1]// TILE)
+            if (mouse_pos[0]< a) and (mouse_pos[1]<b) and w>0:
+                whilestructure(mouse_pos[0]// TILE,mouse_pos[1]// TILE)
             for i in range(1,5):
                 if input_rect_table[i][3].collidepoint(event.pos) or input_rect_table[i][5].collidepoint(event.pos) or input_rect_table[i][6].collidepoint(event.pos) or input_rect_table[i][7].collidepoint(event.pos) or input_rect_table[i][8].collidepoint(event.pos):
                     active = i
@@ -782,6 +794,21 @@ def handle_events():
         if event.type == pygame.KEYDOWN:
             if event.key==pygame.K_SPACE:
                 Time_stop=(Time_stop+1)%2
+            if event.key==pygame.K_m:
+                m=(m+1)%4
+                iiii=0
+                w=0
+                print (m,' ',iiii,' ',w)
+            if event.key==pygame.K_i:
+                iiii=(iiii+1)%2
+                m=0
+                w=0
+                print (m,' ',iiii,' ',w)
+            if event.key==pygame.K_w:
+                w=(w+1)%2
+                m=0
+                iiii=0
+                print (m,' ',iiii,' ',w)
             if event.key==pygame.K_p:
                 page=binom(page)
             if event.key==pygame.K_q:
